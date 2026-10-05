@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Od Zera Do Playera · Kamil Chojnowski</title>
+<meta name="description" content="Kamil Chojnowski uczy facetów, jak podejść, zagadać i zbudować pewność siebie. Poradniki od 53 zł i praca 1:1.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#060709">
+<meta property="og:title" content="Od Zera Do Playera · Kamil Chojnowski">
+<meta property="og:description" content="Jak podejść, zagadać i zbudować pewność siebie, która nie pęka przy pierwszym „nie”.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23060709'/><circle cx='12' cy='16' r='6.5' fill='none' stroke='%23F2ECE4' stroke-width='2.4'/><path d='M20 9.5h3.2a3.6 3.6 0 0 1 0 7.2H20M20 9.5v13' fill='none' stroke='%23FF4433' stroke-width='2.4' stroke-linecap='round'/></svg>">
+<link rel="preload" href="assets/fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/archivo-latin-ext-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css">
+<script>/* decide before first paint: the moving night, unless the visitor asked for reduced motion */
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("deck-on");</script>
+<style>
+/* ------------------------------------------------------------------ faces */
+@font-face { font-family: "Archivo"; src: url(assets/fonts/archivo-latin-standard-normal.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Archivo"; src: url(assets/fonts/archivo-latin-ext-standard-normal.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist"; src: url(assets/fonts/geist-latin-wght-normal.woff2) format("woff2"); font-weight: 100 900; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist"; src: url(assets/fonts/geist-latin-ext-wght-normal.woff2) format("woff2"); font-weight: 100 900; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* ----------------------------------------------------------------- tokens */
+:root {
+  --sc-canvas: #060709;
+  --sc-surface: #0e0f12;
+  --sc-ink: #f2ece4;
+  --sc-ink-soft: #b0a79d;
+  --sc-accent: #ff4433;
+  --sc-accent-ink: #140807;
+  --sc-font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --sc-font-text: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --edge: 4.75rem;              /* the edge rail column on desktop */
+  --gut: clamp(1.25rem, 4.6vw, 4.5rem);
+  --radius: 6px;
+  --hair: color-mix(in oklab, var(--sc-ink) 14%, transparent);
+}
+html, body { background: var(--sc-canvas); }
+body { color: var(--sc-ink); font-family: var(--sc-font-text); overflow-x: hidden; }
+a { color: inherit; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.skip { position: fixed; left: 1rem; top: 1rem; z-index: 200; padding: .7rem 1rem; background: var(--sc-ink); color: var(--sc-canvas); border-radius: var(--radius); transform: translateY(-200%); transition: transform .16s var(--sc-ease-out, ease-out); text-decoration: none; font-weight: 600; }
+.skip:focus-visible { transform: none; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* display type: Archivo, width and weight carry the confidence */
+.d { font-family: var(--sc-font-display); text-transform: uppercase; line-height: .9; letter-spacing: -.012em; margin: 0; text-wrap: balance; }
+.d--thin  { font-stretch: 62%;  font-weight: 200; letter-spacing: -.01em; }
+.d--tall  { font-stretch: 72%;  font-weight: 800; }
+.d--mid   { font-stretch: 88%;  font-weight: 850; }
+.d--wide  { font-stretch: 125%; font-weight: 900; letter-spacing: -.035em; }
+.lede { font-size: clamp(1.06rem, .98rem + .42vw, 1.32rem); line-height: 1.5; color: var(--sc-ink); max-width: 34ch; margin: 0; text-wrap: pretty; }
+.small { font-size: var(--sc-t-sm); line-height: 1.55; color: var(--sc-ink-soft); }
+.label { font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 700; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--sc-ink-soft); }
+.nums { font-variant-numeric: tabular-nums; }
+
+/* buttons: one radius, real states */
+.btn { display: inline-flex; align-items: center; gap: .6em; min-height: 3rem; padding: .85rem 1.35rem; border-radius: var(--radius);
+  font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 800; font-size: .95rem; letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap; border: 1px solid transparent; cursor: pointer;
+  transition: transform .14s var(--sc-ease-out), background-color .16s var(--sc-ease-out), color .16s var(--sc-ease-out), border-color .16s var(--sc-ease-out); }
+.btn--hot { background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: 0 10px 28px -12px rgb(255 68 51 / .55), inset 0 1px 0 rgb(255 255 255 / .25); }
+.btn--ghost { background: rgb(6 7 9 / .35); color: var(--sc-ink); border-color: color-mix(in oklab, var(--sc-ink) 34%, transparent); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--hot:hover { background: #ff5a4b; }
+  .btn--ghost:hover { border-color: var(--sc-ink); background: rgb(6 7 9 / .55); }
+}
+.btn:active { transform: translateY(1px) scale(.985); }
+.btn svg { width: 1.05em; height: 1.05em; flex: none; }
+.tlink { color: var(--sc-ink); text-decoration-thickness: 1px; text-underline-offset: .28em; text-decoration-color: color-mix(in oklab, var(--sc-ink) 45%, transparent); transition: text-decoration-color .16s var(--sc-ease-out); }
+.tlink:hover { text-decoration-color: var(--sc-accent); }
+
+/* where Kamil posts: plain words, no borrowed logos */
+.soc { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+.soc a { display: inline-flex; align-items: center; gap: .45rem; min-height: 2.75rem; padding: .5rem .95rem; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--sc-ink) 26%, transparent); background: rgb(8 8 10 / .45);
+  font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--sc-ink);
+  transition: border-color .16s var(--sc-ease-out), background-color .16s var(--sc-ease-out); }
+.soc a svg { width: .8rem; height: .8rem; opacity: .7; }
+@media (hover: hover) and (pointer: fine) { .soc a:hover { border-color: var(--sc-ink); background: rgb(8 8 10 / .7); } }
+
+/* grain over everything, under the chrome */
+.sc-grain { z-index: 50; }
+
+/* ===================================================================== NIGHT
+   One continuous document. With motion on (.deck-on), a fixed night sits
+   behind the whole page and every section is transparent over it: the night
+   is the only ground, so no section has an edge and nothing ever covers
+   anything. Scroll scrubs the night's weather, two veils over it, and each
+   section's planes. Without JS, or with reduced motion, the sections carry
+   their own grounds and still frames of the night instead. */
+.layer { position: relative; isolation: isolate; color: var(--sc-ink); background: var(--ground, var(--sc-canvas)); }
+.layer__inner { position: relative; z-index: 1; }
+.night, .glow { display: none; }
+.deck-on .night { display: block; position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.world-poster { position: absolute; inset: 0; background: #060709 center / cover no-repeat; opacity: 0; transition: opacity .4s linear; }
+.deck-on.no-webgl .world-poster { opacity: 1; }
+.veil { position: absolute; inset: 0; opacity: 0; }
+.veil--flat { background: #050506; }
+.veil--side { background: linear-gradient(90deg, rgb(4 5 7 / .94), rgb(4 5 7 / .8) 30%, rgb(4 5 7 / .34) 62%, rgb(4 5 7 / 0) 88%); }
+.flow { position: relative; z-index: 1; overflow-x: clip; }   /* clip, not hidden: hidden would break the walk's sticky instruments */
+.deck-on .layer { background: transparent; }
+[data-sc-copy] { opacity: 1; pointer-events: auto; }
+.deck-on [data-depth], .deck-on [data-plane] { will-change: transform; }
+/* a soft dark pool behind a block of copy: fades to nothing, so it never has an edge */
+.deck-on .glow { display: block; position: absolute; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgb(4 5 6 / .8), rgb(4 5 6 / .58) 52%, rgb(4 5 6 / .24) 80%, transparent); }
+
+/* ============================================================= EDGE RAIL */
+.edge { position: fixed; z-index: 60; pointer-events: none; }
+.edge > * { pointer-events: auto; }
+.mark { display: inline-block; font-family: var(--sc-font-display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; font-size: .78rem; line-height: .95; letter-spacing: -.01em; text-decoration: none; color: var(--sc-ink); }
+.mark span { display: block; }
+.mark span:first-child { font-stretch: 62%; font-weight: 300; font-size: 1.12em; letter-spacing: .02em; }
+.index { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+.index a { display: flex; align-items: center; justify-content: flex-end; gap: .7rem; padding: .42rem 0; min-height: 2rem; text-decoration: none; color: var(--sc-ink-soft); }
+.index a i { display: block; width: 1.1rem; height: 2px; border-radius: 2px; background: currentColor; opacity: .5; transition: width .2s var(--sc-ease-out), opacity .2s var(--sc-ease-out), background-color .2s var(--sc-ease-out); }
+.index a span { font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 700; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transform: translateX(6px); transition: opacity .18s var(--sc-ease-out), transform .18s var(--sc-ease-out); white-space: nowrap; }
+.index a.is-laid i { opacity: .9; }
+.index a.is-here { color: var(--sc-ink); }
+.index a.is-here i { width: 2rem; background: var(--sc-accent); opacity: 1; }
+.index a.is-here span, .index a:hover span, .index a:focus-visible span { opacity: 1; transform: none; }
+.edge__cta { font-size: .8rem; padding: .75rem 1rem; min-height: 2.75rem; transition: opacity .2s var(--sc-ease-out), transform .14s var(--sc-ease-out), background-color .16s var(--sc-ease-out); }
+
+@media (min-width: 761px) {
+  .edge--rail { top: 0; right: 0; bottom: 0; width: auto; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; padding: 1.4rem 1.4rem 1.4rem 0; }
+  .edge--bar, .edge__toggle { display: none; }
+}
+@media (max-width: 760px) {
+  .edge--rail { display: none; }
+  .edge--bar { left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgb(6 7 9 / .92), rgb(6 7 9 / .55) 70%, transparent); }
+  .edge--top { left: 1rem; top: calc(.9rem + env(safe-area-inset-top)); }
+  /* copy scrolling up under the mark sinks into the dark instead of colliding with it */
+  .edge--top::before { content: ""; position: fixed; z-index: -1; left: 0; right: 0; top: 0; height: calc(4.2rem + env(safe-area-inset-top)); pointer-events: none; background: linear-gradient(rgb(6 7 9 / .88), rgb(6 7 9 / .55) 55%, transparent); }
+  .edge__toggle { display: inline-flex; align-items: center; gap: .55rem; min-height: 2.75rem; padding: 0 .9rem 0 .75rem; border-radius: var(--radius); background: rgb(14 15 18 / .7); color: var(--sc-ink); border: 1px solid var(--hair); font: inherit; font-size: .8rem; cursor: pointer; }
+  .edge__toggle .ticks { display: inline-flex; gap: 3px; }
+  .edge__toggle .ticks b { display: block; width: 4px; height: 12px; border-radius: 1px; background: currentColor; opacity: .25; }
+  .edge__toggle .ticks b.on { opacity: .9; }
+  .edge__toggle .ticks b.here { background: var(--sc-accent); opacity: 1; }
+  .sheet { position: fixed; left: .75rem; right: .75rem; bottom: calc(4.6rem + env(safe-area-inset-bottom)); z-index: 70; padding: .6rem 1rem; border-radius: 10px; background: rgb(14 15 18 / .96); border: 1px solid var(--hair); box-shadow: 0 20px 50px -10px rgb(0 0 0 / .7); }
+  .sheet[hidden] { display: none; }
+  .sheet .index a { justify-content: flex-start; flex-direction: row-reverse; min-height: 2.75rem; }
+  .sheet .index a span { opacity: 1; transform: none; font-size: .78rem; }
+}
+.edge--top { position: fixed; z-index: 60; transition: opacity .25s var(--sc-ease-out); }
+@media (min-width: 761px) { .edge--top { display: none; } }
+
+/* ================================================================ 1 · NOC */
+#noc { --ground: #050608; height: 100svh; }
+.hero { height: 100%; }
+.hero__planes { position: absolute; inset: 0; pointer-events: none; }
+.hero__title { position: absolute; inset: 0; margin: 0; font-weight: inherit; }
+.hero__far, .hero__near { position: absolute; display: block; white-space: nowrap; }
+.hero__far { z-index: 1; left: calc(var(--gut) - .04em); top: 9vh; transform-origin: 0% 0%; font-size: clamp(5.5rem, 21.5vw, 22rem); color: rgb(242 236 228 / .94); }
+.hero__subject { position: absolute; z-index: 2; right: calc(var(--edge) + 2vw); bottom: 0; height: 88vh; width: auto; pointer-events: none; }
+.hero__subject img { height: 100%; width: auto; display: block; }
+.hero__near { z-index: 3; left: calc(var(--gut) - .05em); bottom: 6.5vh; font-size: clamp(3rem, 10.6vw, 12.5rem); color: var(--sc-ink); transform-origin: 0% 100%; }
+.hero__orbs { position: absolute; inset: -10%; z-index: 4; pointer-events: none; }
+.hero__orbs i { position: absolute; border-radius: 50%; filter: blur(14px); mix-blend-mode: screen; opacity: .5; }
+.hero__copy { position: absolute; z-index: 5; left: var(--gut); top: calc(9vh + clamp(5.5rem, 21.5vw, 22rem) * .9 + 2.2vh); display: grid; gap: 1.35rem; justify-items: start; max-width: 36rem; }
+.hero__copy .acts { display: flex; flex-wrap: wrap; gap: .85rem 1.4rem; align-items: center; }
+.hero__copy .glow { inset: -12vh -12vw -12vh -8vw; }
+.hero__scrim { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(120% 70% at 0% 62%, rgb(5 6 8 / .62), transparent 62%), linear-gradient(to top, rgb(5 6 8 / .7), transparent 34%); }
+.deck-on .hero__scrim { display: none; }
+
+/* ================================================================= 2 · TY */
+#ty { --ground: #0a0e14; }
+.ty { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 3rem 4vw; align-items: center; min-height: 100svh; padding: 20vh calc(var(--edge) + 3vw) 16vh var(--gut); }
+.ty__head { display: grid; gap: 1.2rem; align-content: center; }
+.ty__head .d { font-size: clamp(3.4rem, 9vw, 9rem); }
+.notes { position: relative; height: min(70vh, 40rem); }
+.note { position: absolute; left: 0; right: 0; padding: 1rem 1.25rem 1.05rem; border-radius: var(--radius);
+  background: linear-gradient(180deg, rgb(24 30 40 / .94), rgb(15 19 26 / .95)); border: 1px solid rgb(170 190 215 / .14);
+  box-shadow: 0 18px 40px -16px rgb(0 0 0 / .75), inset 0 1px 0 rgb(255 255 255 / .07);
+  font-size: clamp(1.05rem, .55rem + .8vw + .9vh, 1.7rem); line-height: 1.28; color: #e6ebf2; max-width: 40rem; letter-spacing: -.005em; }
+.note:nth-child(1) { top: 0%; }
+.note:nth-child(2) { top: 19%; left: 6%; }
+.note:nth-child(3) { top: 38%; left: 2%; }
+.note:nth-child(4) { top: 58%; left: 9%; }
+.note:nth-child(5) { top: 77%; left: 4%; }
+.ty__last { grid-column: 1 / -1; }
+.ty__last .d { font-size: clamp(1.8rem, 3.6vw, 3.4rem); color: #dfe6ef; }
+.ty__last .d em { font-style: normal; color: var(--sc-accent); }
+
+/* ============================================================= 3 · PRAWDA */
+#prawda { --ground: #050607; }
+.prawda { min-height: 100svh; display: grid; align-content: center; gap: 2.2rem; padding: 22vh calc(var(--edge) + 6vw) 22vh var(--gut); max-width: 86rem; }
+.prawda blockquote { margin: 0; }
+.prawda .d { font-size: clamp(2.3rem, 5.6vw, 5.9rem); line-height: .95; }
+.prawda .d .ln { display: block; }
+.prawda .d .ln--b { color: var(--sc-ink); }
+.prawda .d .ln--a { color: #c9c1b7; }
+.prawda cite { display: block; margin-top: 1.4rem; font-style: normal; }
+.prawda__turn { font-size: clamp(1.2rem, 1rem + .9vw, 1.9rem); line-height: 1.3; max-width: 30ch; font-weight: 500; margin: 0; }
+.pl { display: block; }
+.prawda__turn .pl { display: inline-block; }
+
+/* ========================================================== 4 · PODEJŚCIE
+   Without motion: a column of lines over a still of the lit bar. With motion:
+   the section is four and a half screens long, the lines sit along it and
+   scroll past like everything else, and two transparent instrument layers ride
+   along at the top of the screen: the excuses behind the lines, the distance in
+   front of them. */
+#podejscie { --ground: #050608; }
+.walk { position: relative; display: grid; gap: 2rem; padding: 14vh var(--gut) 12vh; }
+.walk__beat .d { font-size: clamp(2.6rem, 7.2vw, 7.6rem); }
+.walk__beat--b .d, .walk__beat--d .d { max-width: 12.5em; font-size: clamp(2.2rem, 5vw, 5.2rem); }
+.walk__beat--c .d { font-size: clamp(6rem, 22vw, 22rem); line-height: .82; }
+.walk__beat--c .glow { inset: -14vh -10vw -12vh -6vw; }
+.walk__end { position: relative; display: grid; gap: 1.2rem; justify-items: start; }
+.walk__end .d { font-size: clamp(5rem, 17vw, 17rem); line-height: .8; }
+.walk__glow { inset: -16vh -14vw -9vh -8vw; }
+.deck-on .walk__glow { background: radial-gradient(closest-side, rgb(4 5 6 / .86), rgb(4 5 6 / .78) 45%, rgb(4 5 6 / .5) 74%, transparent); }
+.walk__body { display: grid; gap: 1.1rem; justify-items: start; }
+.walk__end p { margin: 0; max-width: 46ch; font-size: clamp(1.02rem, .95rem + .35vw, 1.22rem); line-height: 1.5; }
+.walk__end p.big { font-size: clamp(1.25rem, 1.05rem + .8vw, 1.9rem); line-height: 1.25; font-weight: 600; max-width: 30ch; }
+.walk__static { color: var(--sc-ink-soft); max-width: 46ch; margin: 0; }
+.walk__scrim { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.walk__under, .walk__over { display: none; }
+.deck-on #podejscie { height: 440svh; }
+.deck-on .walk__under, .deck-on .walk__over { display: block; position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; pointer-events: none; }
+.deck-on .walk__under { z-index: 1; }
+.deck-on .walk__over { z-index: 3; }
+.deck-on .walk { position: absolute; inset: 0; z-index: 2; display: block; padding: 0; }
+.deck-on .walk__scrim, .deck-on .walk__static { display: none; }
+.deck-on .walk__beat { position: absolute; left: var(--gut); right: calc(var(--edge) + 4vw); top: var(--at); transform: translateY(-50%); }
+.walk__beat--a { --at: 56svh; }
+.walk__beat--b { --at: 124svh; }
+.walk__beat--c { --at: 222svh; }
+.walk__beat--d { --at: 312svh; }
+.deck-on .walk__end { position: absolute; left: var(--gut); right: calc(var(--edge) + 4vw); bottom: 9svh; }
+.walk__hud { position: absolute; left: var(--gut); bottom: 6vh; display: flex; align-items: baseline; gap: .9rem; }
+.walk__dist { font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 800; font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: 1; letter-spacing: -.02em; }
+.walk__dist small { font-size: .42em; font-weight: 700; margin-left: .15em; letter-spacing: 0; }
+.excuses { position: absolute; inset: 0; }
+.excuse { position: absolute; left: 50%; top: 50%; margin: 0; padding: .85rem 1.15rem; border-radius: var(--radius); background: rgb(12 14 18 / .92); border: 1px solid rgb(255 255 255 / .1); box-shadow: 0 16px 40px -12px rgb(0 0 0 / .8);
+  font-family: var(--sc-font-display); font-stretch: 88%; font-weight: 700; font-size: clamp(1.05rem, .9rem + .6vw, 1.6rem); letter-spacing: -.005em; color: #e9e3da; white-space: nowrap;
+  opacity: 0; transform: translate(-50%, -50%); will-change: transform, opacity; }
+.walk__hint { position: absolute; left: 50%; top: 10vh; transform: translateX(-50%); margin: 0; padding: .55rem .9rem; border-radius: 999px; background: rgb(40 12 10 / .82); border: 1px solid rgb(255 68 51 / .5); color: #ffd8d2; font-size: .9rem; opacity: 0; transition: opacity .3s var(--sc-ease-out); white-space: nowrap; }
+.walk__hint.on { opacity: 1; }
+
+/* ============================================================== 5 · KAMIL */
+#kamil { --ground: #0b0807; background: radial-gradient(70% 80% at 72% 48%, #2a1710 0%, #120c0a 46%, #080605 100%); }
+.deck-on #kamil { background: transparent; }
+.kamil { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 4vw; padding: 16vh calc(var(--edge) + 3vw) 16vh var(--gut); }
+.kamil__warm { display: none; }
+.deck-on .kamil__warm { display: block; position: absolute; z-index: -1; right: calc(var(--edge) - 6vw); top: 50%; width: 62vw; height: 110vh; margin-top: -55vh; pointer-events: none;
+  background: radial-gradient(closest-side, rgb(120 52 26 / .34), rgb(70 30 16 / .2) 55%, transparent); }
+.kamil__copy { display: grid; gap: 1.4rem; justify-items: start; }
+.kamil__copy .d { font-size: clamp(2.5rem, 5.2vw, 5.4rem); }
+.kamil__quote { margin: .4rem 0 0; padding-left: 1.1rem; border-left: 1px solid var(--sc-accent); font-family: var(--sc-font-display); font-stretch: 88%; font-weight: 600; font-size: clamp(1.1rem, 1rem + .5vw, 1.45rem); line-height: 1.3; color: #efe3d6; }
+.kamil__quote footer { margin-top: .5rem; font-family: var(--sc-font-text); font-weight: 400; font-size: .85rem; color: var(--sc-ink-soft); }
+.phone-wrap { justify-self: center; perspective: 1200px; }
+.phone { position: relative; width: min(22rem, 35vh, 78vw); aspect-ratio: 9 / 19.2; border-radius: 2.4rem; padding: .7rem; background: linear-gradient(160deg, #2b2826, #121110 40%, #1b1918); box-shadow: 0 40px 80px -30px rgb(0 0 0 / .9), 0 0 0 1px rgb(255 255 255 / .08), inset 0 1px 0 rgb(255 255 255 / .12); }
+.phone__screen { position: relative; height: 100%; border-radius: 1.8rem; overflow: hidden; background: #060504; }
+/* the reel: Kamil's shorts, muted while you scroll past, sound on with one tap */
+.reel { isolation: isolate; }
+.reel__bg { position: absolute; inset: -12%; background: #0b0807 var(--poster, none) center / cover no-repeat; filter: blur(18px) brightness(.42) saturate(1.15); }
+.reel__video { position: absolute; left: 0; top: 50%; width: 100%; height: auto; aspect-ratio: 9 / 16; transform: translateY(-50%); object-fit: cover; background: #060504; }
+.reel__tap { position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
+.reel__tap:focus-visible { outline-offset: -5px; }
+.reel__state { position: absolute; z-index: 3; left: 50%; top: 50%; display: grid; place-items: center; width: 4rem; height: 4rem; margin: -2rem 0 0 -2rem; border-radius: 50%; background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: 0 14px 34px -10px rgb(255 68 51 / .7); pointer-events: none; opacity: 0; transform: scale(.9); transition: opacity .2s var(--sc-ease-out), transform .2s var(--sc-ease-out); }
+.reel__state svg { width: 1.5rem; height: 1.5rem; margin-left: .2rem; }
+.reel.is-paused .reel__state { opacity: 1; transform: none; }
+.reel__sound { position: absolute; z-index: 4; top: 2.9rem; right: .75rem; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border-radius: 50%; border: 1px solid rgb(255 255 255 / .24); background: rgb(8 8 10 / .6); color: var(--sc-ink); cursor: pointer; }
+.reel__sound svg { width: 1.15rem; height: 1.15rem; }
+.reel__sound .on, .reel__sound[aria-pressed="true"] .off { display: none; }
+.reel__sound[aria-pressed="true"] .on { display: block; }
+.reel__hint { position: absolute; z-index: 3; left: 50%; bottom: 4.6rem; transform: translateX(-50%); margin: 0; padding: .45rem .8rem; border-radius: 999px; background: rgb(8 8 10 / .74); border: 1px solid rgb(255 255 255 / .2); color: var(--sc-ink); font-size: .74rem; line-height: 1.2; white-space: nowrap; pointer-events: none; transition: opacity .3s var(--sc-ease-out); }
+.reel.is-sound .reel__hint, .reel.is-paused .reel__hint { opacity: 0; }
+.reel__bar { position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; display: grid; gap: .1rem; padding: .7rem .7rem .55rem; background: linear-gradient(to top, rgb(6 5 4 / .92), rgb(6 5 4 / .6) 60%, rgb(6 5 4 / 0)); pointer-events: none; }
+.reel__title { margin: 0 .2rem; font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 700; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sc-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reel__steps { display: flex; gap: .3rem; pointer-events: auto; }
+.reel__steps button { flex: 1; display: grid; align-items: center; height: 2.4rem; margin: 0; padding: 0 .1rem; border: 0; background: transparent; cursor: pointer; }
+.reel__steps i { display: block; height: 3px; border-radius: 3px; background: rgb(255 255 255 / .28); overflow: hidden; }
+.reel__steps b { display: block; height: 100%; background: var(--sc-ink); transform-origin: 0 50%; transform: scaleX(0); }
+.reel__steps button[aria-current="true"] b { background: var(--sc-accent); }
+@media (hover: hover) and (pointer: fine) { .reel__steps button:hover i { background: rgb(255 255 255 / .5); } }
+.phone__notch { position: absolute; top: 1.15rem; left: 50%; width: 30%; height: 1.15rem; transform: translateX(-50%); border-radius: 1rem; background: #050403; z-index: 2; }
+
+/* ============================================================= 6 · OPINIE */
+#opinie { --ground: #0a0807; background: radial-gradient(80% 70% at 78% 40%, #1c120d 0%, #0c0908 55%, #070606 100%); }
+.deck-on #opinie { background: transparent; }
+.opinie { min-height: 100svh; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 4vw; padding: 12vh calc(var(--edge) + 3vw) 12vh var(--gut); }
+.opinie__head { align-self: center; display: grid; gap: 1.2rem; justify-items: start; }
+.opinie__head .d { font-size: clamp(2.6rem, 5.6vw, 6rem); }
+.opinie__head .lede { max-width: 26ch; }
+.opinie__head .small { max-width: 34ch; }
+.wall { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; align-items: start; }
+.wall__col { display: grid; gap: 1.1rem; padding-top: 10vh; }
+.wall__col:nth-child(2) { padding-top: 0; }
+.wall__col:nth-child(3) { padding-top: 16vh; }
+.proof { margin: 0; border-radius: 14px; overflow: hidden; background: #15100d; border: 1px solid rgb(255 255 255 / .08); box-shadow: 0 24px 50px -24px rgb(0 0 0 / .9), inset 0 1px 0 rgb(255 255 255 / .05); }
+.proof img { display: block; width: 100%; height: auto; }
+.proof figcaption { padding: .7rem .9rem .8rem; font-size: .82rem; color: var(--sc-ink-soft); border-top: 1px solid rgb(255 255 255 / .06); }
+.proof--quote blockquote { margin: 0; padding: 1.1rem 1.1rem .4rem; font-size: 1.02rem; line-height: 1.45; color: #efe6db; }
+.proof--empty { display: grid; place-content: center; gap: .35rem; min-height: 11rem; padding: 1rem; text-align: center; background: transparent; border: 1px dashed rgb(255 255 255 / .2); box-shadow: none; }
+.proof--empty.proof--tall { min-height: 17rem; }
+.proof--empty span { font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 700; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: #cfc4b8; }
+.proof--empty small { font-size: .78rem; color: var(--sc-ink-soft); }
+
+/* ============================================================== 7 · DROGA
+   A route, not a deck: the steps sit one under another on a line that draws
+   itself as you read down it. Nothing stacks on anything. */
+#droga { --ground: #08090b; background: linear-gradient(180deg, #0a0b0e, #07080a); }
+.deck-on #droga { background: transparent; }
+.droga { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 4vw; align-items: start; padding: 18vh calc(var(--edge) + 3vw) 14vh var(--gut); }
+.droga__head { position: sticky; top: 18vh; display: grid; gap: 1.3rem; justify-items: start; }
+.droga__head .d { font-size: clamp(2.8rem, 6.4vw, 6.6rem); }
+.route { position: relative; display: grid; gap: 1.25rem; padding-left: 2.4rem; }
+.route__line { position: absolute; left: .55rem; top: 1.6rem; bottom: 1.6rem; width: 2px; border-radius: 2px; background: rgb(255 255 255 / .12); overflow: hidden; }
+.route__fill { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sc-accent), #ff8a66); transform-origin: 50% 0; }
+.deck-on .route__fill { transform: scaleY(0); will-change: transform; }
+.stage { position: relative; padding: 1.4rem 1.5rem 1.2rem; border-radius: 10px;
+  background: linear-gradient(180deg, rgb(23 24 28 / .96), rgb(17 18 22 / .96)); border: 1px solid rgb(255 255 255 / .09);
+  box-shadow: 0 24px 50px -24px rgb(0 0 0 / .9), inset 0 1px 0 rgb(255 255 255 / .07); }
+.stage::before, .bundle::before { content: ""; position: absolute; left: calc(-1.85rem - 6px); top: 1.75rem; width: 14px; height: 14px; border-radius: 50%; background: #0c0d10; border: 2px solid rgb(255 255 255 / .3);
+  transition: background-color .3s var(--sc-ease-out), border-color .3s var(--sc-ease-out), box-shadow .3s var(--sc-ease-out); }
+.stage.is-on::before, .bundle.is-on::before, html:not(.deck-on) .stage::before, html:not(.deck-on) .bundle::before { background: var(--sc-accent); border-color: var(--sc-accent); box-shadow: 0 0 0 4px rgb(255 68 51 / .18); }
+.stage__top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid var(--hair); margin-bottom: .2rem; }
+.stage__name { margin: 0; font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 900; text-transform: uppercase; font-size: clamp(1.3rem, 1.1rem + 1vw, 2rem); letter-spacing: -.01em; }
+.stage__name b { font-weight: 300; font-stretch: 62%; color: var(--sc-accent); margin-right: .12rem; }
+.stage__why { margin: 0; color: var(--sc-ink-soft); font-size: .9rem; text-align: right; max-width: 26ch; }
+.guide { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .35rem 1.2rem; align-items: center; padding: .95rem 0; border-bottom: 1px solid rgb(255 255 255 / .06); }
+.guide:last-child { border-bottom: 0; }
+.guide h3 { margin: 0; font-family: var(--sc-font-display); font-stretch: 92%; font-weight: 800; font-size: clamp(1rem, .95rem + .35vw, 1.22rem); line-height: 1.15; text-transform: none; letter-spacing: -.005em; }
+.guide p { margin: .25rem 0 0; color: var(--sc-ink-soft); font-size: .9rem; line-height: 1.45; max-width: 52ch; }
+.guide .meta { grid-column: 1; display: flex; gap: .5rem; flex-wrap: wrap; }
+.chip { display: inline-block; padding: .14rem .45rem; border-radius: 4px; border: 1px solid var(--hair); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--sc-ink-soft); }
+.chip--18 { border-color: rgb(255 68 51 / .55); color: #ffb3aa; }
+.guide .btn { grid-column: 2; grid-row: 1 / span 2; font-size: .8rem; padding: .65rem .95rem; min-height: 2.75rem; }
+/* the whole route at once: Kamil's newest guide, with every other one in the bundle */
+.bundle { position: relative; display: grid; gap: .85rem; justify-items: start; padding: 1.6rem 1.6rem 1.5rem; border-radius: 12px;
+  background: radial-gradient(120% 140% at 100% 0%, rgb(255 68 51 / .17), transparent 56%), linear-gradient(180deg, rgb(30 21 19 / .97), rgb(18 14 13 / .97));
+  border: 1px solid rgb(255 68 51 / .45); box-shadow: 0 30px 60px -26px rgb(0 0 0 / .95), inset 0 1px 0 rgb(255 255 255 / .08); }
+.bundle__k { color: #ffb8ae; margin: 0; }
+.bundle__t { margin: 0; font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 900; text-transform: uppercase; font-size: clamp(1.5rem, 1.15rem + 1.4vw, 2.5rem); line-height: .95; letter-spacing: -.012em; }
+.bundle__s { margin: 0; font-size: 1rem; line-height: 1.5; max-width: 46ch; }
+.bundle .meta { display: flex; gap: .5rem; flex-wrap: wrap; }
+.bundle .btn { margin-top: .35rem; }
+.route__top { margin: .4rem 0 0; }
+
+/* =============================================================== 8 · 1:1 */
+#jeden { --ground: #040405; background: radial-gradient(90% 60% at 50% 0%, #1d130e 0%, #070606 52%, #040405 100%); }
+.deck-on #jeden { background: transparent; }
+.jeden { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 5vw; align-items: center; padding: 16vh calc(var(--edge) + 4vw) 16vh var(--gut); }
+.jeden .d { font-size: clamp(3.6rem, 10.5vw, 11.5rem); line-height: .82; }
+.jeden__body { display: grid; gap: 1.4rem; justify-items: start; align-content: center; }
+.jeden__body p { margin: 0; font-size: clamp(1.05rem, 1rem + .3vw, 1.25rem); line-height: 1.5; max-width: 38ch; }
+.incl { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; width: 100%; max-width: 30rem; border-top: 1px solid var(--hair); }
+.incl li { padding: .8rem 0; border-bottom: 1px solid var(--hair); display: flex; gap: .8rem; align-items: baseline; }
+.incl li::before { content: ""; flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: var(--sc-accent); transform: translateY(-.1rem); }
+.price { font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 800; font-size: 1.5rem; }
+.price small { font-family: var(--sc-font-text); font-weight: 400; font-size: .9rem; color: var(--sc-ink-soft); margin-right: .4rem; }
+
+/* ============================================================ 9 · PLAYER */
+#player { --ground: #050608; }
+.close { position: relative; min-height: 100svh; display: grid; grid-template-rows: 1fr auto; padding: 14vh calc(var(--edge) + 3vw) 0 var(--gut); }
+.close__main { position: relative; align-self: center; display: grid; gap: 1.6rem; justify-items: start; padding-bottom: 4vh; }
+.close__glow { inset: -14vh -12vw -10vh -10vw; }
+.close__main .d { font-size: clamp(4.2rem, 13vw, 14rem); line-height: .8; }
+.close__main .lede { max-width: 30ch; font-size: clamp(1.2rem, 1rem + .8vw, 1.8rem); line-height: 1.3; }
+.first { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; padding: 1.1rem 1.2rem 1.1rem 1.4rem; border-radius: 10px; background: rgb(8 8 10 / .78); border: 1px solid rgb(255 255 255 / .12); box-shadow: 0 24px 60px -20px rgb(0 0 0 / .8); }
+.first__t { display: grid; gap: .2rem; }
+.first__t b { font-family: var(--sc-font-display); font-stretch: 92%; font-weight: 800; font-size: 1.15rem; }
+.close__scrim { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(95% 80% at 8% 52%, rgb(4 4 5 / .84), rgb(4 4 5 / .45) 50%, transparent 76%), linear-gradient(0deg, rgb(4 4 5 / .9), transparent 30%); }
+.deck-on .close__scrim { display: none; }
+.foot { position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 2rem; padding: 1.2rem 0 calc(1.3rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--hair); font-size: .82rem; color: var(--sc-ink-soft); }
+.deck-on .foot::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(-1 * var(--gut)); right: calc(-1 * (var(--edge) + 3vw)); background: linear-gradient(to top, rgb(4 4 5 / .94), rgb(4 4 5 / .8)); }
+.foot nav { display: flex; flex-wrap: wrap; gap: .5rem 1.3rem; }
+.foot a { color: var(--sc-ink-soft); text-underline-offset: .25em; }
+.foot a:hover { color: var(--sc-ink); }
+
+/* ============================================================ the phone */
+@media (max-width: 760px) {
+  :root { --edge: 0px; --gut: 1.25rem; }
+  .veil--side { background: linear-gradient(180deg, rgb(4 5 7 / .7), rgb(4 5 7 / .78) 50%, rgb(4 5 7 / .86)); }
+  .hero__far { top: 13vh; font-size: 30vw; }
+  .hero__near { bottom: auto; top: calc(13vh + 30vw * .9 + 1.5vh); font-size: 14.2vw; line-height: .86; }
+  .hero__near > span { display: block; }
+  .hero__copy { top: auto; bottom: calc(6.5rem + env(safe-area-inset-bottom)); right: var(--gut); max-width: none; gap: 1.1rem; }
+  .hero__copy .glow { inset: -8vh -6vw -6vh -6vw; }
+  .hero__subject { right: -6vw; height: 66vh; }
+  .hero__scrim { background: linear-gradient(to top, rgb(5 6 8 / .86) 0%, rgb(5 6 8 / .5) 34%, transparent 58%), linear-gradient(to bottom, rgb(5 6 8 / .45), transparent 30%); }
+  .ty { grid-template-columns: 1fr; align-content: start; gap: 2rem; padding: 18vh var(--gut) 14vh; }
+  .ty__head .d { font-size: 17vw; }
+  .notes { height: 58vh; }
+  .note { font-size: 1.02rem; padding: 1rem 1.05rem; }
+  .note:nth-child(n) { left: 0; }
+  .note:nth-child(2) { left: 3%; } .note:nth-child(4) { left: 4%; }
+  .ty__last .d { font-size: 1.75rem; }
+  .prawda { padding: 20vh var(--gut) 20vh; gap: 1.6rem; }
+  .prawda .d { font-size: 10.4vw; }
+  .deck-on .walk__beat { left: var(--gut); right: var(--gut); }
+  .walk__beat .d { font-size: 13vw; }
+  .walk__beat--b .d, .walk__beat--d .d { font-size: 9.6vw; }
+  .walk__beat--c .d { font-size: 30vw; }
+  .walk__beat--c .glow { inset: -8vh -6vw -6vh -6vw; }
+  .deck-on .walk__end { left: var(--gut); right: var(--gut); bottom: calc(6.5rem + env(safe-area-inset-bottom)); gap: .9rem; }
+  .walk__end .d { font-size: 19vw; }
+  .walk__glow { inset: -10vh -8vw -6vh -6vw; }
+  .walk__end p { font-size: .98rem; }
+  .walk__end p.big { font-size: 1.2rem; }
+  .walk__hud { bottom: calc(5.4rem + env(safe-area-inset-bottom)); }
+  .walk__dist { font-size: 2.4rem; }
+  .walk__hint { top: calc(4.4rem + env(safe-area-inset-top)); font-size: .82rem; }
+  .excuse { white-space: normal; width: max-content; max-width: 74vw; text-align: center; font-size: 1rem; padding: .7rem .9rem; }
+  .kamil { grid-template-columns: 1fr; align-content: start; gap: 2.4rem; padding: 14vh var(--gut) 12vh; }
+  .kamil__copy .d { font-size: 10.6vw; }
+  .deck-on .kamil__warm { right: -30vw; width: 120vw; top: 72%; }
+  .phone { width: min(16rem, 62vw); }
+  .reel__title { letter-spacing: .06em; }
+  .reel__hint { bottom: 4.3rem; font-size: .7rem; }
+  .droga { grid-template-columns: 1fr; gap: 2.2rem; padding: 14vh var(--gut) 10vh; }
+  .droga__head { position: static; gap: .9rem; }
+  .droga__head .d { font-size: 12.5vw; }
+  .route { padding-left: 1.9rem; gap: 1rem; }
+  .route__line { left: .35rem; }
+  .stage::before, .bundle::before { left: calc(-1.55rem - 6px); }
+  .stage { padding: 1.1rem 1.05rem .7rem; }
+  .stage__why { display: none; }
+  .guide { grid-template-columns: 1fr; gap: .55rem; padding: .9rem 0 1rem; }
+  .guide .btn { grid-column: 1; grid-row: auto; justify-self: start; }
+  .bundle { padding: 1.3rem 1.15rem 1.2rem; }
+  .jeden { grid-template-columns: 1fr; align-content: center; gap: 1.8rem; padding: 14vh var(--gut) 12vh; }
+  .jeden .d { font-size: 20vw; }
+  .close { padding: 14vh var(--gut) 0; }
+  .close__main .d { font-size: 15.5vw; }
+  .deck-on .foot::before { right: calc(-1 * var(--gut)); }
+  .foot { padding-bottom: calc(5.6rem + env(safe-area-inset-bottom)); }
+  .first { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .8rem 1rem; padding: 1rem; }
+  .first .tlink { grid-column: 1 / -1; }
+  .opinie { grid-template-columns: 1fr; gap: 2rem; padding: 14vh var(--gut) 10vh; }
+  .opinie__head .d { font-size: 11vw; }
+  .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .wall__col { gap: .7rem; padding-top: 0; }
+  .wall__col:nth-child(2) { padding-top: 8vh; }
+  .wall__col:nth-child(3) { display: none; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  .notes { height: 62vh; }
+  .note { font-size: .95rem; padding: .8rem .9rem; }
+}
+
+/* ======================================================= reduced motion
+   Motion is off: the sections read top to bottom over still frames of the
+   night. The walk shows its excuses as plain text instead of reacting. */
+html:not(.deck-on) .layer[data-ground="world"] { background: #050608 var(--poster, none) center / cover no-repeat; }
+html:not(.deck-on) #noc { --poster: url(assets/world-hero.jpg); }
+html:not(.deck-on) #podejscie { --poster: url(assets/world-hello.jpg); }
+html:not(.deck-on) #player { --poster: url(assets/world-player.jpg); }
+html:not(.deck-on) .walk__beat--c { display: none; }
+html:not(.deck-on) .walk__scrim { background: linear-gradient(90deg, rgb(4 5 7 / .9), rgb(4 5 7 / .82) 52%, rgb(4 5 7 / .35) 80%, rgb(4 5 7 / .15)); }
+html:not(.deck-on) .walk__end .d { font-size: clamp(3.4rem, 10vw, 10rem); }
+html:not(.deck-on) .walk > :not(.walk__scrim) { max-width: 58rem; }
+html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
+@media (max-width: 760px) { html:not(.deck-on) .walk__scrim { background: rgb(4 5 7 / .8); } html:not(.deck-on) .walk__end .d { font-size: 19vw; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#droga">Przejdź do poradników</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- ======================================================= edge rail (nav) -->
+<div class="edge edge--rail" aria-label="Nawigacja">
+  <a class="mark" href="#noc" aria-label="Od Zera Do Playera, na górę"><span>Od zera</span><span>do playera</span></a>
+  <nav aria-label="Części strony">
+    <ol class="index" data-index>
+      <li><a href="#noc"><span>Noc</span><i></i></a></li>
+      <li><a href="#ty"><span>Ty</span><i></i></a></li>
+      <li><a href="#prawda"><span>Prawda</span><i></i></a></li>
+      <li><a href="#podejscie"><span>Podejście</span><i></i></a></li>
+      <li><a href="#kamil"><span>Kamil</span><i></i></a></li>
+      <li data-opt="opinie"><a href="#opinie"><span>Opinie</span><i></i></a></li>
+      <li><a href="#droga"><span>Droga</span><i></i></a></li>
+      <li><a href="#jeden"><span>1:1</span><i></i></a></li>
+      <li><a href="#player"><span>Player</span><i></i></a></li>
+    </ol>
+  </nav>
+  <a class="btn btn--hot edge__cta" href="#droga" data-cta>Zacznij od zera</a>
+</div>
+<div class="edge edge--top"><a class="mark" href="#noc" aria-label="Od Zera Do Playera, na górę"><span>Od zera</span><span>do playera</span></a></div>
+<div class="edge edge--bar">
+  <button class="edge__toggle" type="button" aria-expanded="false" aria-controls="sheet" data-toggle>
+    <span class="ticks" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b data-opt="opinie"></b><b></b><b></b><b></b></span>
+    <span data-here>Noc</span>
+  </button>
+  <a class="btn btn--hot edge__cta" href="#droga" data-cta>Zacznij od zera</a>
+</div>
+<div class="sheet" id="sheet" hidden>
+  <nav aria-label="Części strony (telefon)">
+    <ol class="index">
+      <li><a href="#noc"><span>Noc</span><i></i></a></li>
+      <li><a href="#ty"><span>Ty</span><i></i></a></li>
+      <li><a href="#prawda"><span>Prawda</span><i></i></a></li>
+      <li><a href="#podejscie"><span>Podejście</span><i></i></a></li>
+      <li><a href="#kamil"><span>Kamil</span><i></i></a></li>
+      <li data-opt="opinie"><a href="#opinie"><span>Opinie</span><i></i></a></li>
+      <li><a href="#droga"><span>Droga</span><i></i></a></li>
+      <li><a href="#jeden"><span>1:1</span><i></i></a></li>
+      <li><a href="#player"><span>Player</span><i></i></a></li>
+    </ol>
+  </nav>
+</div>
+
+<main id="top">
+<!-- The night: one fixed stage behind the whole page (motion on only).
+     data-sc-world tells the verification harness that this fixed layer IS the
+     background behind every line, so it stays in the contrast shots. -->
+<div class="night" data-night data-sc-world aria-hidden="true">
+  <canvas class="world"></canvas>
+  <div class="world-poster"></div>
+  <div class="veil veil--flat" data-veil="flat"></div>
+  <div class="veil veil--side" data-veil="side"></div>
+</div>
+
+<div class="flow" data-flow>
+
+  <!-- ============================================================ 1 · NOC -->
+  <section class="layer" id="noc" data-layer data-ground="world" data-sc-act="flow" aria-label="Od zera do playera">
+    <div class="layer__inner hero">
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__planes">
+        <h1 class="hero__title d">
+          <span class="hero__far d--thin" data-plane="far">Od zera</span>
+          <span class="hero__near d--wide" data-plane="near"><span>do</span> <span>playera</span></span>
+        </h1>
+        <!-- Kamil's cut-out goes here, between the two words: <div class="hero__subject" data-plane="subject"><img ...></div> -->
+        <div class="hero__orbs" data-plane="orbs" aria-hidden="true">
+          <i style="left:6%;top:70%;width:22vmin;height:22vmin;background:radial-gradient(circle,rgb(255 150 70 / .55),transparent 66%)"></i>
+          <i style="left:82%;top:8%;width:30vmin;height:30vmin;background:radial-gradient(circle,rgb(120 160 255 / .35),transparent 66%)"></i>
+          <i style="left:60%;top:78%;width:16vmin;height:16vmin;background:radial-gradient(circle,rgb(255 70 60 / .5),transparent 66%)"></i>
+        </div>
+      </div>
+      <div class="hero__copy" data-sc-copy>
+        <div class="glow" aria-hidden="true"></div>
+        <p class="lede">Jestem Kamil Chojnowski. Pokażę Ci, jak podejść, zagadać i&nbsp;zbudować pewność siebie, która nie pęka przy pierwszym „nie”.</p>
+        <div class="acts">
+          <a class="btn btn--hot" href="#droga" data-cta>Zacznij od zera</a>
+          <a class="tlink" href="#kamil">Obejrzyj shorty</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= 2 · TY -->
+  <section class="layer" id="ty" data-layer data-ground="glass" data-sc-act="flow" aria-labelledby="ty-h">
+    <div class="layer__inner ty">
+      <div class="ty__head" data-sc-copy>
+        <p class="label" data-depth="0.22">Ty, w&nbsp;piątek wieczorem</p>
+        <h2 class="d d--tall" id="ty-h" data-depth="0.12">Znasz to?</h2>
+      </div>
+      <div class="notes" data-notes>
+        <p class="note" data-sc-copy>Widzisz ją. Układasz w&nbsp;głowie pierwsze zdanie. Ona wychodzi.</p>
+        <p class="note" data-sc-copy>Odpisujesz w&nbsp;sekundę. Za długo. Za grzecznie.</p>
+        <p class="note" data-sc-copy>Słuchasz, jak narzeka na innych facetów, i&nbsp;liczysz, że w&nbsp;końcu zauważy Ciebie.</p>
+        <p class="note" data-sc-copy>Jesteś jej darmowym terapeutą.</p>
+        <p class="note" data-sc-copy>Tłumaczysz się. Ze wszystkiego.</p>
+      </div>
+      <div class="ty__last" data-sc-copy>
+        <p class="d d--mid" data-depth="0.25">I&nbsp;za każdym razem obiecujesz sobie: <em>następnym razem.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 3 · PRAWDA -->
+  <section class="layer" id="prawda" data-layer data-ground="glass" data-sc-act="flow" aria-label="Prawda">
+    <div class="layer__inner prawda">
+      <blockquote data-sc-copy>
+        <p class="d d--tall" data-depth="0.12"><span class="ln ln--a">Większość mężczyzn nie boi się odrzucenia.</span>
+        <span class="ln ln--b" data-line>Boją się własnej reakcji na to odrzucenie.</span></p>
+        <cite class="small" data-depth="0.28">Kamil, z&nbsp;poradnika „Jak podejść do kobiety”</cite>
+      </blockquote>
+      <p class="prawda__turn" data-sc-copy><span class="pl" data-depth="0.4">Reakcję da się wytrenować. Sprawdźmy.</span></p>
+    </div>
+  </section>
+
+  <!-- ====================================================== 4 · PODEJŚCIE -->
+  <section class="layer" id="podejscie" data-layer data-ground="world" data-sc-act="flow" aria-label="Podejście">
+    <div class="walk__under" aria-hidden="true"><div class="excuses" data-excuses></div></div>
+    <div class="walk__over" aria-hidden="true">
+      <div class="walk__hud" data-hud>
+        <span class="walk__dist nums"><span data-dist>12</span><small>m</small></span>
+        <span class="label">do niej</span>
+      </div>
+      <p class="walk__hint" data-hint>Stoisz w&nbsp;miejscu. Idź dalej, a&nbsp;wymówki znikną.</p>
+    </div>
+    <div class="layer__inner walk" data-walk>
+      <div class="walk__scrim" aria-hidden="true"></div>
+      <div class="walk__beat walk__beat--a" data-sc-copy><h2 class="d d--tall" data-depth="0.18">Widzisz ją przy barze.</h2></div>
+      <div class="walk__beat walk__beat--b" data-sc-copy><p class="d d--tall" data-depth="0.18">Masz dwie sekundy, zanim głowa wymyśli wymówkę.</p></div>
+      <div class="walk__beat walk__beat--c" data-sc-copy><div class="glow" aria-hidden="true"></div><p class="d d--wide" data-depth="0.32">Idź.</p></div>
+      <div class="walk__beat walk__beat--d" data-sc-copy><p class="d d--tall" data-depth="0.18">Nie układaj przemowy. Wystarczy jedno słowo.</p></div>
+      <div class="walk__end" data-depth="0.1">
+        <div class="glow walk__glow" data-fade aria-hidden="true"></div>
+        <p class="d d--wide" data-sc-copy>Cześć.</p>
+        <div class="walk__body" data-sc-copy>
+          <p class="big">Tyle. Reszta to umiejętność, której się uczysz.</p>
+          <p>A&nbsp;jeśli nie jest zainteresowana? Mówisz „miłego wieczoru” i&nbsp;odchodzisz z&nbsp;podniesioną głową. Podszedłeś. To już jest wygrana.</p>
+          <a class="tlink" href="https://payhip.com/b/p6Wj3" target="_blank" rel="noopener">Poradnik „Jak podejść do kobiety”, 53&nbsp;zł</a>
+        </div>
+      </div>
+      <p class="walk__static">Wymówki, które słyszysz w&nbsp;głowie po drodze: pewnie ma chłopaka, jest z&nbsp;koleżankami, co ja w&nbsp;ogóle powiem, wyjdę na dziwaka, za chwilę, jeszcze jeden drink. Idziesz mimo nich.</p>
+    </div>
+  </section>
+
+  <!-- ========================================================== 5 · KAMIL -->
+  <section class="layer" id="kamil" data-layer data-ground="solid" data-sc-act="flow" aria-labelledby="kamil-h">
+    <div class="layer__inner kamil">
+      <div class="kamil__warm" data-depth="-0.3" aria-hidden="true"></div>
+      <div class="kamil__copy" data-sc-copy>
+        <p class="label">Kamil Chojnowski · Od Zera Do Playera</p>
+        <h2 class="d d--tall" id="kamil-h" data-depth="0.12">Zanim cokolwiek kupisz, posłuchaj, co mam do powiedzenia.</h2>
+        <p class="lede">Wrzucam shorty o&nbsp;podchodzeniu, flirtowaniu i&nbsp;pewności siebie. Krótko, konkretnie, bez filtra.</p>
+        <blockquote class="kamil__quote" data-depth="0.2">„Zbuduję Twoją potężną pewność siebie. Zmienię Twoje życie.”<footer>Kamil, o&nbsp;pracy 1:1</footer></blockquote>
+        <ul class="soc" aria-label="Kamil w sieci">
+          <li><a href="https://www.youtube.com/@OdZeraDoPlayera" target="_blank" rel="noopener">YouTube<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="https://www.tiktok.com/@od_zera_do_playera" target="_blank" rel="noopener" aria-label="TikTok: @od_zera_do_playera">TikTok<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="https://www.instagram.com/odzeradoplayera/" target="_blank" rel="noopener" aria-label="Instagram: @odzeradoplayera">Instagram<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="https://www.facebook.com/share/1RNr1HVmg4/" target="_blank" rel="noopener">Facebook<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.5h6v6M9.5 2.5 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+      </div>
+      <div class="phone-wrap" data-depth="0.3">
+        <div class="phone" data-sc-tilt="7">
+          <!-- Kamil's shorts. One button per short: data-src (540×960 H.264 MP4),
+               data-poster (a still from the first seconds), data-title (shown under the video). -->
+          <div class="phone__screen reel" data-reel>
+            <div class="reel__bg" aria-hidden="true"></div>
+            <video class="reel__video" data-reel-video playsinline muted preload="none" poster="assets/shorts/short-1.jpg" aria-label="Short Kamila"></video>
+            <button class="reel__tap" type="button" data-reel-tap aria-label="Włącz dźwięk i oglądaj od początku"></button>
+            <span class="reel__state" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5Z"/></svg></span>
+            <button class="reel__sound" type="button" data-reel-sound aria-pressed="false" aria-label="Włącz dźwięk">
+              <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="m16 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <p class="reel__hint" data-reel-hint aria-hidden="true">Dotknij, żeby włączyć dźwięk</p>
+            <div class="reel__bar">
+              <p class="reel__title" data-reel-title>Nigdy nie mów tych słów</p>
+              <div class="reel__steps" role="group" aria-label="Shorty Kamila">
+                <button type="button" data-reel-go data-src="assets/shorts/short-1.mp4" data-poster="assets/shorts/short-1.jpg" data-title="Nigdy nie mów tych słów" aria-label="Short 1: Nigdy nie mów tych słów"><i><b></b></i></button>
+                <button type="button" data-reel-go data-src="assets/shorts/short-2.mp4" data-poster="assets/shorts/short-2.jpg" data-title="Żeby się zakochała" aria-label="Short 2: Żeby się zakochała"><i><b></b></i></button>
+                <button type="button" data-reel-go data-src="assets/shorts/short-3.mp4" data-poster="assets/shorts/short-3.jpg" data-title="Nie pokazuj, że chcesz" aria-label="Short 3: Nie pokazuj, że chcesz"><i><b></b></i></button>
+                <button type="button" data-reel-go data-src="assets/shorts/short-4.mp4" data-poster="assets/shorts/short-4.jpg" data-title="Kiedy się odsunie" aria-label="Short 4: Kiedy się odsunie"><i><b></b></i></button>
+              </div>
+            </div>
+          </div>
+          <span class="phone__notch" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 6 · OPINIE
+       Real messages only. Each .proof is one screenshot or quote from a client,
+       shown with their consent. While there are none, this section removes
+       itself (flow.js) unless the page is opened with ?demo, which shows empty
+       frames for layout review. -->
+  <section class="layer" id="opinie" data-layer data-ground="solid" data-sc-act="flow" aria-labelledby="opinie-h">
+    <div class="layer__inner opinie">
+      <div class="opinie__head" data-sc-copy>
+        <h2 class="d d--tall" id="opinie-h" data-depth="0.12">Co piszą po pierwszym kroku.</h2>
+        <p class="lede">Wiadomości od facetów, którzy przeszli tę drogę.</p>
+        <p class="small">Prawdziwe wiadomości od klientów, publikowane za ich zgodą. Imiona i&nbsp;zdjęcia zakryte.</p>
+      </div>
+      <div class="wall" aria-label="Opinie klientów">
+        <div class="wall__col" data-travel="10">
+          <figure class="proof proof--empty"><span>Wiadomość od klienta</span><small>zrzut ekranu, za zgodą</small></figure>
+          <figure class="proof proof--empty proof--tall"><span>Wiadomość od klienta</span><small>zrzut ekranu, za zgodą</small></figure>
+          <figure class="proof proof--empty"><span>Opinia z&nbsp;Payhip</span><small>tekst, za zgodą</small></figure>
+        </div>
+        <div class="wall__col" data-travel="22">
+          <figure class="proof proof--empty proof--tall"><span>Short z&nbsp;historią klienta</span><small>YouTube / TikTok</small></figure>
+          <figure class="proof proof--empty"><span>Wiadomość od klienta</span><small>zrzut ekranu, za zgodą</small></figure>
+          <figure class="proof proof--empty"><span>Komentarz pod shortem</span><small>zrzut ekranu</small></figure>
+        </div>
+        <div class="wall__col" data-travel="15">
+          <figure class="proof proof--empty"><span>Wiadomość od klienta</span><small>zrzut ekranu, za zgodą</small></figure>
+          <figure class="proof proof--empty"><span>Opinia po rozmowie 1:1</span><small>tekst, za zgodą</small></figure>
+          <figure class="proof proof--empty proof--tall"><span>Wiadomość od klienta</span><small>zrzut ekranu, za zgodą</small></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================== 7 · DROGA -->
+  <section class="layer" id="droga" data-layer data-ground="solid" data-sc-act="flow" aria-labelledby="droga-h">
+    <div class="layer__inner droga">
+      <div class="droga__head" data-sticky data-sc-copy>
+        <h2 class="d d--tall" id="droga-h">Droga od zera.</h2>
+        <p class="lede">Każdy krok to jeden poradnik. Większość kosztuje 53&nbsp;zł. Zacznij od tego, który boli najbardziej.</p>
+        <a class="tlink" href="https://payhip.com/odzeradoplayera" target="_blank" rel="noopener">Wszystkie poradniki w&nbsp;sklepie</a>
+      </div>
+      <div class="route" data-route>
+        <div class="route__line" aria-hidden="true"><i class="route__fill" data-route-fill></i></div>
+        <article class="stage" data-reveal aria-labelledby="st1">
+          <div class="stage__top"><h3 class="stage__name" id="st1"><b>1</b> Fundament</h3><p class="stage__why">Przestań oddawać komuś pilot do swoich emocji.</p></div>
+          <div class="guide"><div><h3>Kim naprawdę jest bad boy</h3><p>„Nie jest zły, jest po prostu wolny.” Niezależność, stabilność emocjonalna i&nbsp;różnica między pewnością a&nbsp;udawaniem.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/ieopA" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+          <div class="guide"><div><h3>Jak stracić kobietę w&nbsp;50 ruchach</h3><p>50 najczęstszych błędów, od tłumaczenia się po bycie jej darmowym terapeutą.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/nWctT" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+        </article>
+        <article class="stage" data-reveal aria-labelledby="st2">
+          <div class="stage__top"><h3 class="stage__name" id="st2"><b>2</b> Podejście</h3><p class="stage__why">Od patrzenia do pierwszego słowa.</p></div>
+          <div class="guide"><div><h3>Jak podejść do kobiety</h3><p>Protokół 30 kroków, zasada dwóch sekund, szacunek i&nbsp;jasne granice. Nie o&nbsp;„podrywaniu”, tylko o&nbsp;zaufaniu do samego siebie.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Start tutaj</span></div><a class="btn btn--hot" href="https://payhip.com/b/p6Wj3" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+        </article>
+        <article class="stage" data-reveal aria-labelledby="st3">
+          <div class="stage__top"><h3 class="stage__name" id="st3"><b>3</b> Rozmowa</h3><p class="stage__why">Co mówić, kiedy już stoisz obok niej.</p></div>
+          <div class="guide"><div><h3>Jak flirtować + 143 przykłady</h3><p>Style flirtu i&nbsp;143 przykłady do użycia od razu.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/1Y5t6" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+          <div class="guide"><div><h3>Tekst, żeby wiedziały, że spotykasz się z&nbsp;innymi</h3><p>Krótka wiadomość, która mówi wprost, że nie jesteś na wyłączność.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/mP5Xa" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+        </article>
+        <article class="stage" data-reveal aria-labelledby="st4">
+          <div class="stage__top"><h3 class="stage__name" id="st4"><b>4</b> Gra</h3><p class="stage__why">„Game to nie jest oszustwo.”</p></div>
+          <div class="guide"><div><h3>Czym jest gra i&nbsp;jak w&nbsp;nią grać</h3><p>Przestań zgadywać, zacznij prowadzić. Mapa dynamiki między facetem a&nbsp;kobietą.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/jWKuh" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+          <div class="guide"><div><h3>Tablica wyników i&nbsp;rama</h3><p>Status, czas i&nbsp;logistyka oraz słowa, które obniżają Twoją pozycję. W&nbsp;pakiecie 5 nowych poradników.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">+5 poradników</span></div><a class="btn btn--hot" href="https://payhip.com/b/RAeg5" target="_blank" rel="noopener">Kup · 98&nbsp;zł</a></div>
+        </article>
+        <article class="stage" data-reveal aria-labelledby="st5">
+          <div class="stage__top"><h3 class="stage__name" id="st5"><b>5</b> Relacja</h3><p class="stage__why">Wyjdź z&nbsp;roli kumpla i&nbsp;pasażera.</p></div>
+          <div class="guide"><div><h3>Jak wyjść z&nbsp;friendzone</h3><p>Test diagnozy, 30-dniowy plan i&nbsp;22 techniki.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/9w8Tp" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+          <div class="guide"><div><h3>Jak odzyskać kontrolę w&nbsp;związku</h3><p>30 pytań i&nbsp;30-dniowy plan, żeby z&nbsp;pasażera znów stać się liderem.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/WOpZJ" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+          <div class="guide"><div><h3>Jak kobiety manipulują</h3><p>143 sytuacje z&nbsp;życia i&nbsp;gotowe odpowiedzi, żeby nie wpaść w&nbsp;rolę terapeuty ani planu B.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/u4iwh" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
+        </article>
+        <article class="stage" data-reveal aria-labelledby="st6">
+          <div class="stage__top"><h3 class="stage__name" id="st6"><b>6</b> Sypialnia</h3><p class="stage__why">Tylko dla dorosłych.</p></div>
+          <div class="guide"><div><h3>Co robić w&nbsp;łóżku</h3><p>Obecność, technika, sześć faz i&nbsp;opieka po wszystkim.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip chip--18">18+</span></div><a class="btn btn--hot" href="https://payhip.com/b/SO8sJ" target="_blank" rel="noopener">Kup · 98&nbsp;zł</a></div>
+        </article>
+        <article class="bundle" data-reveal aria-labelledby="bundle-h">
+          <p class="label bundle__k">Albo cała droga naraz</p>
+          <h3 class="bundle__t" id="bundle-h">Poradnik Tylko Dla Królów</h3>
+          <p class="bundle__s">Mój najnowszy poradnik. Kupujesz go, a&nbsp;wszystkie pozostałe poradniki dostajesz w&nbsp;pakiecie.</p>
+          <div class="meta"><span class="chip">PDF</span><span class="chip">+ wszystkie poradniki</span><span class="chip chip--18">18+</span></div>
+          <a class="btn btn--hot" href="https://payhip.com/b/1DuGb" target="_blank" rel="noopener">Kup pakiet · 247&nbsp;zł</a>
+        </article>
+        <p class="small route__top" data-reveal>Na szczycie drogi jest <a class="tlink" href="#jeden">praca 1:1 ze mną</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 8 · 1:1 -->
+  <section class="layer" id="jeden" data-layer data-ground="solid" data-sc-act="flow" aria-labelledby="jeden-h">
+    <div class="layer__inner jeden">
+      <h2 class="d d--tall" id="jeden-h" data-sc-copy><span class="pl" data-depth="0.28">90 dni.<br>Ty i&nbsp;ja.</span></h2>
+      <div class="jeden__body" data-sc-copy>
+        <p>Bezpośrednia praca 1 na 1. Twardy reset Twojego życia, relacji i&nbsp;pewności siebie. Żadnych miękkich porad.</p>
+        <ul class="incl" data-depth="0.14">
+          <li>90 dni pracy ze mną, 1 na 1</li>
+          <li>Prywatna grupa, dostęp na zawsze</li>
+          <li>Każdy poradnik, który kiedykolwiek wydam</li>
+        </ul>
+        <p class="price"><small>od</small>3&#8239;000&nbsp;zł</p>
+        <a class="btn btn--hot" href="https://payhip.com/b/4xGYB" target="_blank" rel="noopener">Pracuj ze mną 1:1</a>
+        <p class="small">Wolisz najpierw pogadać? <a class="tlink" href="https://payhip.com/b/lewny" target="_blank" rel="noopener">Konsultacja video, 40 minut, od 350&nbsp;zł</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 9 · PLAYER -->
+  <section class="layer" id="player" data-layer data-ground="world" data-sc-act="flow" aria-labelledby="player-h">
+    <div class="layer__inner close" data-still>
+      <div class="close__scrim" aria-hidden="true"></div>
+      <div class="close__main">
+        <div class="glow close__glow" aria-hidden="true"></div>
+        <h2 class="d d--wide" id="player-h" data-sc-copy><span class="pl" data-depth="0.2">Zacznij od zera.</span></h2>
+        <p class="lede" data-sc-copy>Pierwszy krok kosztuje 53&nbsp;zł i&nbsp;jedną decyzję.</p>
+        <div class="first" data-depth="0.08">
+          <div class="first__t"><span class="label">Krok 1</span><b>Jak podejść do kobiety</b></div>
+          <a class="btn btn--hot" href="https://payhip.com/b/p6Wj3" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a>
+          <a class="tlink" href="https://payhip.com/b/4xGYB" target="_blank" rel="noopener">albo od razu: pracuj ze mną 1:1</a>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>© 2026 Kamil Chojnowski · Od Zera Do Playera</span>
+        <nav aria-label="Stopka">
+          <a href="mailto:OdZeraDoPlayera@gmail.com">OdZeraDoPlayera@gmail.com</a>
+          <a href="https://www.youtube.com/@OdZeraDoPlayera" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.tiktok.com/@od_zera_do_playera" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://www.instagram.com/odzeradoplayera/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/share/1RNr1HVmg4/" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://payhip.com/odzeradoplayera" target="_blank" rel="noopener">Sklep</a>
+          <a href="https://payhip.com/b/KFIfm" target="_blank" rel="noopener">Dla kobiet: darmowy poradnik</a>
+        </nav>
+        <span>Poradniki oznaczone 18+ są dla dorosłych.</span>
+      </footer>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script src="world.js"></script>
+<script src="flow.js"></script>
+</body>
+</html>
