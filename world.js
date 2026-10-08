@@ -1,10 +1,15 @@
 /* world.js · Od Zera Do Playera
-   The night, rendered live in the browser. No images, no textures.
+   The night, rendered live in the browser.
 
-   Pass A draws the city as point lights seen through a lens: three depth planes
-   (far windows, street lamps, near orbs) plus their reflection in the wet street,
-   with a focus control that turns points into bokeh discs. It renders into a
-   half-resolution target with mipmaps, because a defocused city is soft anyway.
+   Pass A draws the city. With a photo plate loaded (world.plate + world.use) it
+   is a real frame of the night, cover-fitted and zoomed on a focus point, with
+   depth of field from the mip chain; two slots dissolve one plate into the
+   next. Without a plate (nothing loaded yet, a failed load, no WebGL2) it is
+   the procedural city: point lights seen through a lens, three depth planes
+   (far windows, street lamps, near orbs) plus their reflection in the wet
+   street, with a focus control that turns points into bokeh discs. It renders
+   into a half-resolution target with mipmaps (full resolution in plate mode),
+   because a defocused city is soft anyway.
 
    Pass B is the window: rain on the glass (running drops with trails, beading
    droplets that grow and evaporate), fog the drops wipe clean, each drop an
@@ -33,7 +38,27 @@
     'in vec2 vUv; out vec4 o;',
     'uniform float uTime, uFocus, uDolly, uTargetOn, uAspect, uStreet, uLights;',
     'uniform vec2 uTarget, uPar;',
+    // the photo plates: two slots dissolved by uMix, uPlate fading the whole photo in over the procedural city
+    'uniform sampler2D uPlateA, uPlateB;',
+    'uniform vec4 uViewA, uViewB;',        // (cx, cy, zoom, plateAspect): focus point in plate uv (y down), zoom >= 1
+    'uniform vec2 uResA;',
+    'uniform float uMix, uPlate, uGain;',
     COMMON,
+    // Cover-fit: the window of the plate seen through this canvas (its aspect A), zoomed about the focus
+    // point and nudged by the parallax, never past an edge. uv is canvas 0..1 with y up; the plate is y down.
+    'vec2 coverUv(vec2 uv, vec4 v, float A, vec2 par, out vec2 s){',
+    '  s = A > v.w ? vec2(1.0, v.w / A) : vec2(A / v.w, 1.0);',   // visible fraction of the plate at zoom 1
+    '  s /= max(v.z, 1.0);',
+    '  vec2 c = clamp(v.xy + par, s * 0.5, 1.0 - s * 0.5);',
+    '  return c + (vec2(uv.x, 1.0 - uv.y) - 0.5) * s;',
+    '}',
+    // One plate, roughly linear. Depth of field is the mip level above the plate's own texel density.
+    'vec3 plateAt(sampler2D t, vec4 v, float dof){',
+    '  vec2 s; vec2 puv = coverUv(vUv, v, uAspect, vec2(uPar.x, -uPar.y) * 0.5, s);',
+    '  float base = log2(max(1.0, s.x * float(textureSize(t, 0).x) / uResA.x));',
+    '  vec3 c = textureLod(t, puv, base + dof).rgb;',
+    '  return c * c;',
+    '}',
     // sodium, warm white, cool white, tail red, magenta, teal. Weighted toward warm.
     'float vnoise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); float a = h21(i), b = h21(i + vec2(1.0, 0.0)), c = h21(i + vec2(0.0, 1.0)), d = h21(i + vec2(1.0, 1.0)); return mix(mix(a, b, f.x), mix(c, d, f.x), f.y); }',
     'vec3 pal(float k){',
@@ -93,23 +118,34 @@
     '  float cocF = mix(0.040, 0.0042, f);',
     '  float cocM = mix(0.080, 0.0075, f);',
     '  float cocN = mix(0.25, 0.17, f);',
-    '  col += plane(pf, 0.034, 0.34, vec3(yS + 0.07, yS + 0.40, 0.07), 11.0, 0.36, cocF, vec2(1.0), 1.0);',
-    '  col += plane(pm, 0.072, 0.30, vec3(yS + 0.02, yS + 0.24, 0.05), 23.0, 0.85, cocM, vec2(1.0), 0.45);',
-    '  if (y < yS + 0.04) {',
-    '    vec2 pr = pm; pr.y = 2.0 * yS - pr.y;',
-    '    pr.x += 0.0016 * sin(pr.y * 38.0 + uTime * 1.3) + 0.0008 * sin(pr.y * 71.0 - uTime * 1.9);',
-    '    vec3 refl = plane(pr, 0.072, 0.30, vec3(yS + 0.02, yS + 0.24, 0.05), 23.0, 0.30 * mix(0.35, 1.0, f), cocM * 1.1, vec2(1.0, mix(0.5, 0.16, f)), 0.45);',
-    '    col += refl * smoothstep(yS + 0.03, yS - 0.07, y) * smoothstep(-0.8, yS - 0.05, y);',
+    // the far and mid lights and their reflection are the expensive part: skipped once the photo covers them
+    '  if (uPlate < 0.999) {',
+    '    col += plane(pf, 0.034, 0.34, vec3(yS + 0.07, yS + 0.40, 0.07), 11.0, 0.36, cocF, vec2(1.0), 1.0);',
+    '    col += plane(pm, 0.072, 0.30, vec3(yS + 0.02, yS + 0.24, 0.05), 23.0, 0.85, cocM, vec2(1.0), 0.45);',
+    '    if (y < yS + 0.04) {',
+    '      vec2 pr = pm; pr.y = 2.0 * yS - pr.y;',
+    '      pr.x += 0.0016 * sin(pr.y * 38.0 + uTime * 1.3) + 0.0008 * sin(pr.y * 71.0 - uTime * 1.9);',
+    '      vec3 refl = plane(pr, 0.072, 0.30, vec3(yS + 0.02, yS + 0.24, 0.05), 23.0, 0.30 * mix(0.35, 1.0, f), cocM * 1.1, vec2(1.0, mix(0.5, 0.16, f)), 0.45);',
+    '      col += refl * smoothstep(yS + 0.03, yS - 0.07, y) * smoothstep(-0.8, yS - 0.05, y);',
+    '    }',
     '  }',
-    '  col += plane(pn, 0.22, 0.20, vec3(-0.9, 0.9, 0.2), 37.0, 0.09, cocN, vec2(1.0), 0.15);',
-    // her: one warm light that comes into focus as you get closer
-    '  if (uTargetOn > 0.001) {',
+    // the photo takes the place of the sky, the street and the far lights
+    '  if (uPlate > 0.001) {',
+    '    float dof = mix(3.0, 0.0, smoothstep(0.15, 0.7, f));',
+    '    vec3 ph = plateAt(uPlateA, uViewA, dof);',
+    '    if (uMix > 0.001) ph = mix(ph, plateAt(uPlateB, uViewB, dof), uMix);',
+    '    col = mix(col, ph * uGain, uPlate);',
+    '  }',
+    // the near bokeh stays (at half gain over a photo) for depth
+    '  col += plane(pn, 0.22, 0.20, vec3(-0.9, 0.9, 0.2), 37.0, 0.09 * mix(1.0, 0.5, uPlate), cocN, vec2(1.0), 0.15);',
+    // her: one warm light that comes into focus as you get closer (the photo shows her itself)
+    '  if (uTargetOn > 0.001 && uPlate < 0.999) {',
     '    float d = length(p - T);',
     '    float rT = mix(0.030, 0.011, f) * (1.0 + uDolly * 2.4);',
     '    vec3 w = vec3(1.0, 0.60, 0.40);',
     '    float disc = smoothstep(rT, rT * 0.78, d);',
     '    float glow = exp(-d * d / (rT * rT * 12.0));',
-    '    col += w * uTargetOn * (disc * 0.85 + glow * 0.55);',
+    '    col += w * uTargetOn * (disc * 0.85 + glow * 0.55) * (1.0 - uPlate);',
     '  }',
     '  o = vec4(sqrt(clamp(col * 0.5, 0.0, 1.0)), 1.0);',
     '}'
@@ -122,7 +158,7 @@
     'in vec2 vUv; out vec4 o;',
     'uniform sampler2D uCity;',
     'uniform vec2 uRes;',
-    'uniform float uTime, uRain, uFog, uClear, uWarm, uDrain, uExposure, uDim, uGrain, uAspect, uFrame;',
+    'uniform float uTime, uRain, uFog, uClear, uWarm, uDrain, uExposure, uDim, uGrain, uAspect, uFrame, uPlate;',
     'uniform vec4 uDrop;',
     COMMON,
     'vec3 city(vec2 uv, float lod){ vec3 s = textureLod(uCity, clamp(uv, 0.001, 0.999), lod).rgb; return s * s * 2.0; }',
@@ -236,7 +272,9 @@
     '  col = max(col - 0.0025, 0.0) * uExposure * (1.0 - uDim * 0.55);',
     '  col = col / (1.0 + col * 0.55);',
     '  vec2 vq = (uv - 0.5) * vec2(uAspect * 0.85, 1.0);',
-    '  col *= mix(0.36, 1.0, smoothstep(1.08, 0.22, length(vq)));',
+    // the vignette: softer over a photo, which brings its own
+    '  float vig = smoothstep(1.08, 0.22, length(vq));',
+    '  col *= mix(mix(0.36, 1.0, vig), mix(0.74, 1.0, vig), uPlate);',
     '  col = pow(max(col, 0.0), vec3(1.0 / 2.2));',
     '  col += (h21(uv * uRes + fract(uFrame * 0.618) * 97.0) - 0.5) * uGrain;',
     '  o = vec4(col, 1.0);',
@@ -271,8 +309,11 @@
     rain: 0.6, fog: 0.5, clear: 0, focus: 0.35, warm: 0.35, drain: 0.3, dolly: 0,
     tx: 0.18, ty: -0.02, targetOn: 0, speed: 1, exposure: 0.95, dim: 0,
     parX: 0, parY: 0, grain: 0.035, street: -0.2, lights: 0,
-    dropX: 0.72, dropY: 0.8, dropR: 0.05, dropOn: 0
+    dropX: 0.72, dropY: 0.8, dropR: 0.05, dropOn: 0,
+    // the plates: slot B's share, each slot's view (focus point in plate uv, y down, and zoom), the photo's gain
+    plateMix: 0, viewAx: 0.5, viewAy: 0.5, viewAz: 1, viewBx: 0.5, viewBy: 0.5, viewBz: 1, plateGain: 0.9
   };
+  var VIEW_KEYS = [['viewAx', 'viewAy', 'viewAz'], ['viewBx', 'viewBy', 'viewBz']];
 
   function create(canvas, opts) {
     opts = opts || {};
@@ -297,7 +338,7 @@
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
     var tex = gl.createTexture(), fbo = gl.createFramebuffer();
-    var W = 0, H = 0, FW = 0, FH = 0;
+    var W = 0, H = 0, FW = 0, FH = 0, fullRes = false;
 
     var cur = {}, tgt = {};
     Object.keys(DEFAULTS).forEach(function (k) { cur[k] = tgt[k] = DEFAULTS[k]; });
@@ -307,13 +348,62 @@
     var scale = opts.scale || (mobile ? 0.62 : 0.8);
     var dprCap = mobile ? 2 : 1.5;
 
+    /* ---- the plates: a cache of at most three on the GPU (about 8 MB each with
+       mipmaps), two slots in Pass A, and a ramp of 0.6 s whenever a slot's photo
+       becomes ready, so nothing pops. A failed load leaves the procedural city. */
+    var plates = {}, plateOn = 0;
+    var slots = [{ name: null, on: 0, fresh: false }, { name: null, on: 0, fresh: false }];
+    var blank = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, blank);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    function inSlot(n) { return slots[0].name === n || slots[1].name === n; }
+    function upload(e, img) {
+      var loaded = Object.keys(plates).filter(function (n) { return plates[n].tex; });
+      while (loaded.length >= 3) {
+        var victim = null;
+        loaded.forEach(function (n) { if (!inSlot(n) && (!victim || plates[n].used < plates[victim].used)) victim = n; });
+        if (!victim) break;
+        gl.deleteTexture(plates[victim].tex); plates[victim].tex = null;
+        loaded.splice(loaded.indexOf(victim), 1);
+      }
+      var t = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      e.tex = t; e.w = img.naturalWidth; e.h = img.naturalHeight; e.used = frame;
+    }
+    function load(e) {
+      if (e.loading || e.tex || e.failed) return;
+      e.loading = true;
+      var img = new Image();
+      img.decoding = 'async';
+      img.src = e.url;
+      var done = function () { e.loading = false; if (!gl.isContextLost()) upload(e, img); };
+      var fail = function () { e.loading = false; e.failed = true; };
+      if (img.decode) img.decode().then(done, fail); else { img.onload = done; img.onerror = fail; }
+    }
+    // a slot that just changed plates shows the new view at once instead of easing from the old one
+    function snapFresh() {
+      slots.forEach(function (s, i) { if (s.fresh) { VIEW_KEYS[i].forEach(function (k) { cur[k] = tgt[k]; }); s.fresh = false; } });
+    }
+
     function resize() {
       var dpr = Math.min(global.devicePixelRatio || 1, dprCap);
       var cw = canvas.clientWidth || global.innerWidth, ch = canvas.clientHeight || global.innerHeight;
       var w = Math.max(2, Math.round(cw * dpr * scale)), h = Math.max(2, Math.round(ch * dpr * scale));
       if (w === W && h === H) return;
       W = canvas.width = w; H = canvas.height = h;
-      FW = Math.max(2, Math.round(W * 0.5)); FH = Math.max(2, Math.round(H * 0.5));
+      // a photo wants the city target at full resolution, or the sharp states look soft
+      var fr = fullRes ? 1 : 0.5;
+      FW = Math.max(2, Math.round(W * fr)); FH = Math.max(2, Math.round(H * fr));
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, FW, FH, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
@@ -334,9 +424,19 @@
       Object.keys(tgt).forEach(function (key) { cur[key] += (tgt[key] - cur[key]) * k; });
       time += dt * cur.speed;
       frame++;
+      // each slot ramps up once its photo is on the GPU; the photo as a whole is on while any slot is ready
+      var ready = false, r = dt / 0.6;
+      slots.forEach(function (s) {
+        var e = s.name && plates[s.name], want = e && e.tex ? 1 : 0;
+        if (want) ready = true;
+        s.on += Math.max(-r, Math.min(r, want - s.on));
+      });
+      plateOn += Math.max(-r, Math.min(r, (ready ? 1 : 0) - plateOn));
     }
 
     function draw() {
+      var wantFull = plateOn > 0.001;
+      if (wantFull !== fullRes) { fullRes = wantFull; W = H = 0; }
       resize();
       var aspect = W / H;
       // Pass A: the city
@@ -353,6 +453,19 @@
       gl.uniform1f(u.uLights, cur.lights);
       gl.uniform2f(u.uTarget, cur.tx, cur.ty);
       gl.uniform2f(u.uPar, cur.parX, cur.parY);
+      // the plates: slot B's share is renormalised to the slots that are actually ready
+      var eA = slots[0].name && plates[slots[0].name], eB = slots[1].name && plates[slots[1].name];
+      var onA = slots[0].on, onB = slots[1].on, m = cur.plateMix, den = (1 - m) * onA + m * onB;
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, eA && eA.tex ? eA.tex : blank);
+      gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, eB && eB.tex ? eB.tex : blank);
+      gl.uniform1i(u.uPlateA, 1);
+      gl.uniform1i(u.uPlateB, 2);
+      gl.uniform4f(u.uViewA, cur.viewAx, cur.viewAy, cur.viewAz, eA && eA.tex ? eA.w / eA.h : 1.5);
+      gl.uniform4f(u.uViewB, cur.viewBx, cur.viewBy, cur.viewBz, eB && eB.tex ? eB.w / eB.h : 1.5);
+      gl.uniform2f(u.uResA, FW, FH);
+      gl.uniform1f(u.uMix, den > 1e-4 ? m * onB / den : (onB > onA ? 1 : 0));
+      gl.uniform1f(u.uPlate, plateOn);
+      gl.uniform1f(u.uGain, cur.plateGain);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.generateMipmap(gl.TEXTURE_2D);
@@ -376,6 +489,7 @@
       gl.uniform1f(u.uGrain, cur.grain);
       gl.uniform1f(u.uAspect, aspect);
       gl.uniform1f(u.uFrame, frame);
+      gl.uniform1f(u.uPlate, plateOn);
       gl.uniform4f(u.uDrop, cur.dropX, cur.dropY, cur.dropR, cur.dropOn);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
@@ -393,15 +507,42 @@
     var api = {
       gl: gl,
       canvas: canvas,
-      set: function (s) { for (var k in s) if (k in tgt && s[k] === s[k]) tgt[k] = s[k]; },
-      jump: function (s) { for (var k in s) if (k in tgt) { tgt[k] = cur[k] = s[k]; } },
+      set: function (s) { for (var k in s) if (k in tgt && s[k] === s[k]) tgt[k] = s[k]; snapFresh(); },
+      jump: function (s) {
+        for (var k in s) if (k in tgt) { tgt[k] = cur[k] = s[k]; }
+        snapFresh();
+        // no easing at all: a ready photo shows at once
+        slots.forEach(function (sl) { var e = sl.name && plates[sl.name]; sl.on = e && e.tex ? 1 : 0; });
+        plateOn = slots[0].on || slots[1].on ? 1 : 0;
+      },
       get: function () { return cur; },
+      // plates: start loading one (idempotent; a failed load is not retried), put two in the slots, ask after them
+      plate: function (name, url) {
+        var e = plates[name];
+        if (!e) e = plates[name] = { url: url, tex: null, w: 1, h: 1, used: 0, loading: false, failed: false };
+        load(e);
+        return e;
+      },
+      use: function (a, b) {
+        [a, b].forEach(function (n, i) {
+          var s = slots[i];
+          n = n || null;
+          if (n !== s.name) { s.name = n; s.fresh = true; }
+          var e = n && plates[n];
+          if (e) { e.used = frame; load(e); }   // (an evicted plate comes back from the browser cache)
+        });
+      },
+      plates: function () {
+        var o = { on: plateOn, slots: slots.map(function (s) { return { name: s.name, on: +s.on.toFixed(3) }; }), loaded: {} };
+        Object.keys(plates).forEach(function (n) { var e = plates[n]; o.loaded[n] = e.tex ? 'ready' : e.failed ? 'failed' : e.loading ? 'loading' : 'evicted'; });
+        return o;
+      },
       start: function () { if (running) return; running = true; last = 0; raf = requestAnimationFrame(loop); },
       stop: function () { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; },
       running: function () { return running; },
       renderOnce: function (dt) { step(dt == null ? 0 : dt); draw(); },
       scale: function () { return scale; },
-      setScale: function (v) { scale = v; W = H = 0; resize(); },
+      setScale: function (v) { scale = v; W = H = 0; },   // the next draw reallocates, so no blank frame shows
       resize: resize
     };
     canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); api.stop(); if (opts.onLost) opts.onLost(); });

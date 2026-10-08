@@ -10,9 +10,15 @@
 <meta property="og:title" content="Od Zera Do Playera · Kamil Chojnowski">
 <meta property="og:description" content="Jak podejść, zagadać i zbudować pewność siebie, która nie pęka przy pierwszym „nie”.">
 <meta property="og:type" content="website">
+<!-- og:image needs an absolute URL: add <meta property="og:image" content="https://<address>/assets/og.jpg"> once the site has an address -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23060709'/><circle cx='12' cy='16' r='6.5' fill='none' stroke='%23F2ECE4' stroke-width='2.4'/><path d='M20 9.5h3.2a3.6 3.6 0 0 1 0 7.2H20M20 9.5v13' fill='none' stroke='%23FF4433' stroke-width='2.4' stroke-linecap='round'/></svg>">
 <link rel="preload" href="assets/fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo-latin-ext-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/plates/street-cold.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/plates/street-cold-portrait.webp" media="(max-width: 760px)">
 <link rel="stylesheet" href="scrollcraft.css">
 <script>/* decide before first paint: the moving night, unless the visitor asked for reduced motion */
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("deck-on");</script>
@@ -178,7 +184,7 @@ a { color: inherit; }
 .ty__head .d { font-size: clamp(3.4rem, 9vw, 9rem); }
 .notes { position: relative; height: min(70vh, 40rem); }
 .note { position: absolute; left: 0; right: 0; padding: 1rem 1.25rem 1.05rem; border-radius: var(--radius);
-  background: linear-gradient(180deg, rgb(24 30 40 / .94), rgb(15 19 26 / .95)); border: 1px solid rgb(170 190 215 / .14);
+  background: #131820 linear-gradient(180deg, rgb(24 30 40 / .94), rgb(15 19 26 / .95)); border: 1px solid rgb(170 190 215 / .14);
   box-shadow: 0 18px 40px -16px rgb(0 0 0 / .75), inset 0 1px 0 rgb(255 255 255 / .07);
   font-size: clamp(1.05rem, .55rem + .8vw + .9vh, 1.7rem); line-height: 1.28; color: #e6ebf2; max-width: 40rem; letter-spacing: -.005em; }
 .note:nth-child(1) { top: 0%; }
@@ -186,8 +192,13 @@ a { color: inherit; }
 .note:nth-child(3) { top: 38%; left: 2%; }
 .note:nth-child(4) { top: 58%; left: 9%; }
 .note:nth-child(5) { top: 77%; left: 4%; }
-.ty__last { grid-column: 1 / -1; }
+.ty__last { grid-column: 1 / -1; position: relative; }
+.ty__last .glow { inset: -12vh -20vw -12vh -30vw; }
 .ty__last .d { font-size: clamp(1.8rem, 3.6vw, 3.4rem); color: #dfe6ef; }
+/* "Ty": the reader, from behind, standing in the room and looking out through the rainy glass. Not Kamil.
+   Behind the notes (he is dark, so they gain contrast), on its own slow layer. */
+.ty__you { position: absolute; z-index: -1; right: calc(var(--edge) + 1vw); bottom: 0; height: 90svh; width: auto; pointer-events: none; user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 98%); mask-image: linear-gradient(to bottom, #000 68%, transparent 98%); }   /* the cut-out ends at his hips: let it sink into the dark */
 .ty__last .d em { font-style: normal; color: var(--sc-accent); }
 
 /* ============================================================= 3 · PRAWDA */
@@ -215,9 +226,10 @@ a { color: inherit; }
 .walk__beat--b .d, .walk__beat--d .d { max-width: 12.5em; font-size: clamp(2.2rem, 5vw, 5.2rem); }
 .walk__beat--c .d { font-size: clamp(6rem, 22vw, 22rem); line-height: .82; }
 .walk__beat--c .glow { inset: -14vh -10vw -12vh -6vw; }
+.walk__beat--a .glow, .walk__beat--b .glow, .walk__beat--d .glow { inset: -14vh -16vw -14vh -34vw; }   /* the lines cross the bar's lit windows; wide, because a radial pool is weak where a line ends */
 .walk__end { position: relative; display: grid; gap: 1.2rem; justify-items: start; }
 .walk__end .d { font-size: clamp(5rem, 17vw, 17rem); line-height: .8; }
-.walk__glow { inset: -16vh -14vw -9vh -8vw; }
+.walk__glow { inset: -16vh -14vw -22vh -50vw; }   /* the body copy sits bottom-left over the lit bar top */
 .deck-on .walk__glow { background: radial-gradient(closest-side, rgb(4 5 6 / .86), rgb(4 5 6 / .78) 45%, rgb(4 5 6 / .5) 74%, transparent); }
 .walk__body { display: grid; gap: 1.1rem; justify-items: start; }
 .walk__end p { margin: 0; max-width: 46ch; font-size: clamp(1.02rem, .95rem + .35vw, 1.22rem); line-height: 1.5; }
@@ -325,10 +337,12 @@ a { color: inherit; }
 .stage::before, .bundle::before { content: ""; position: absolute; left: calc(-1.85rem - 6px); top: 1.75rem; width: 14px; height: 14px; border-radius: 50%; background: #0c0d10; border: 2px solid rgb(255 255 255 / .3);
   transition: background-color .3s var(--sc-ease-out), border-color .3s var(--sc-ease-out), box-shadow .3s var(--sc-ease-out); }
 .stage.is-on::before, .bundle.is-on::before, html:not(.deck-on) .stage::before, html:not(.deck-on) .bundle::before { background: var(--sc-accent); border-color: var(--sc-accent); box-shadow: 0 0 0 4px rgb(255 68 51 / .18); }
-.stage__top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid var(--hair); margin-bottom: .2rem; }
+.stage__top { display: flex; align-items: center; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid var(--hair); margin-bottom: .2rem; }
+/* one small frame of the same night per stage; the same size for all six, the bundle has none */
+.stage__tile { flex: none; width: 104px; height: 104px; border-radius: 8px; object-fit: cover; box-shadow: 0 10px 24px -14px rgb(0 0 0 / .9), 0 0 0 1px rgb(255 255 255 / .06); }
 .stage__name { margin: 0; font-family: var(--sc-font-display); font-stretch: 100%; font-weight: 900; text-transform: uppercase; font-size: clamp(1.3rem, 1.1rem + 1vw, 2rem); letter-spacing: -.01em; }
 .stage__name b { font-weight: 300; font-stretch: 62%; color: var(--sc-accent); margin-right: .12rem; }
-.stage__why { margin: 0; color: var(--sc-ink-soft); font-size: .9rem; text-align: right; max-width: 26ch; }
+.stage__why { margin: 0 0 0 auto; color: var(--sc-ink-soft); font-size: .9rem; text-align: right; max-width: 26ch; }
 .guide { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .35rem 1.2rem; align-items: center; padding: .95rem 0; border-bottom: 1px solid rgb(255 255 255 / .06); }
 .guide:last-child { border-bottom: 0; }
 .guide h3 { margin: 0; font-family: var(--sc-font-display); font-stretch: 92%; font-weight: 800; font-size: clamp(1rem, .95rem + .35vw, 1.22rem); line-height: 1.15; text-transform: none; letter-spacing: -.005em; }
@@ -353,7 +367,9 @@ a { color: inherit; }
 .deck-on #jeden { background: transparent; }
 .jeden { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 5vw; align-items: center; padding: 16vh calc(var(--edge) + 4vw) 16vh var(--gut); }
 .jeden .d { font-size: clamp(3.6rem, 10.5vw, 11.5rem); line-height: .82; }
-.jeden__body { display: grid; gap: 1.4rem; justify-items: start; align-content: center; }
+.jeden__body { position: relative; }
+.jeden__copy { display: grid; gap: 1.4rem; justify-items: start; align-content: center; }
+.jeden__body .glow { inset: -12vh -18vw -12vh -18vw; }   /* the copy sits over the table's cups and lamp */
 .jeden__body p { margin: 0; font-size: clamp(1.05rem, 1rem + .3vw, 1.25rem); line-height: 1.5; max-width: 38ch; }
 .incl { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; width: 100%; max-width: 30rem; border-top: 1px solid var(--hair); }
 .incl li { padding: .8rem 0; border-bottom: 1px solid var(--hair); display: flex; gap: .8rem; align-items: baseline; }
@@ -371,7 +387,7 @@ a { color: inherit; }
 .first { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; padding: 1.1rem 1.2rem 1.1rem 1.4rem; border-radius: 10px; background: rgb(8 8 10 / .78); border: 1px solid rgb(255 255 255 / .12); box-shadow: 0 24px 60px -20px rgb(0 0 0 / .8); }
 .first__t { display: grid; gap: .2rem; }
 .first__t b { font-family: var(--sc-font-display); font-stretch: 92%; font-weight: 800; font-size: 1.15rem; }
-.close__scrim { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(95% 80% at 8% 52%, rgb(4 4 5 / .84), rgb(4 4 5 / .45) 50%, transparent 76%), linear-gradient(0deg, rgb(4 4 5 / .9), transparent 30%); }
+.close__scrim { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(115% 95% at 6% 52%, rgb(4 4 5 / .9), rgb(4 4 5 / .72) 55%, rgb(4 4 5 / .3) 80%, transparent 95%), linear-gradient(0deg, rgb(4 4 5 / .9), transparent 30%); }   /* (motion off only: the warm street still is bright where the headline ends) */
 .deck-on .close__scrim { display: none; }
 .foot { position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 2rem; padding: 1.2rem 0 calc(1.3rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--hair); font-size: .82rem; color: var(--sc-ink-soft); }
 .deck-on .foot::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(-1 * var(--gut)); right: calc(-1 * (var(--edge) + 3vw)); background: linear-gradient(to top, rgb(4 4 5 / .94), rgb(4 4 5 / .8)); }
@@ -387,7 +403,8 @@ a { color: inherit; }
   .hero__near { bottom: auto; top: calc(13vh + 30vw * .9 + 1.5vh); font-size: 14.2vw; line-height: .86; }
   .hero__near > span { display: block; }
   .hero__copy { top: auto; bottom: calc(6.5rem + env(safe-area-inset-bottom)); right: var(--gut); max-width: none; gap: 1.1rem; }
-  .hero__copy .glow { inset: -8vh -6vw -6vh -6vw; }
+  .hero__copy .glow { inset: -14vh -45vw -10vh -45vw; }
+  .walk__beat--a .glow, .walk__beat--b .glow, .walk__beat--d .glow, .ty__last .glow, .jeden__body .glow { inset: -12vh -42vw; }
   .hero__subject { right: -6vw; height: 66vh; }
   .hero__scrim { background: linear-gradient(to top, rgb(5 6 8 / .86) 0%, rgb(5 6 8 / .5) 34%, transparent 58%), linear-gradient(to bottom, rgb(5 6 8 / .45), transparent 30%); }
   .ty { grid-template-columns: 1fr; align-content: start; gap: 2rem; padding: 18vh var(--gut) 14vh; }
@@ -396,6 +413,7 @@ a { color: inherit; }
   .note { font-size: 1.02rem; padding: 1rem 1.05rem; }
   .note:nth-child(n) { left: 0; }
   .note:nth-child(2) { left: 3%; } .note:nth-child(4) { left: 4%; }
+  .ty__you { right: 0; left: 0; margin: 0 auto; bottom: 4vh; height: 70svh; width: calc(70svh * 683 / 1024); opacity: .85; }
   .ty__last .d { font-size: 1.75rem; }
   .prawda { padding: 20vh var(--gut) 20vh; gap: 1.6rem; }
   .prawda .d { font-size: 10.4vw; }
@@ -426,6 +444,7 @@ a { color: inherit; }
   .route__line { left: .35rem; }
   .stage::before, .bundle::before { left: calc(-1.55rem - 6px); }
   .stage { padding: 1.1rem 1.05rem .7rem; }
+  .stage__tile { width: 64px; height: 64px; border-radius: 6px; }
   .stage__why { display: none; }
   .guide { grid-template-columns: 1fr; gap: .55rem; padding: .9rem 0 1rem; }
   .guide .btn { grid-column: 1; grid-row: auto; justify-self: start; }
@@ -540,10 +559,10 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
           <i style="left:60%;top:78%;width:16vmin;height:16vmin;background:radial-gradient(circle,rgb(255 70 60 / .5),transparent 66%)"></i>
         </div>
       </div>
-      <div class="hero__copy" data-sc-copy>
-        <div class="glow" aria-hidden="true"></div>
-        <p class="lede">Jestem Kamil Chojnowski. Pokażę Ci, jak podejść, zagadać i&nbsp;zbudować pewność siebie, która nie pęka przy pierwszym „nie”.</p>
-        <div class="acts">
+      <div class="hero__copy">
+        <div class="glow" data-fade aria-hidden="true"></div>
+        <p class="lede" data-sc-copy>Jestem Kamil Chojnowski. Pokażę Ci, jak podejść, zagadać i&nbsp;zbudować pewność siebie, która nie pęka przy pierwszym „nie”.</p>
+        <div class="acts" data-sc-copy>
           <a class="btn btn--hot" href="#droga" data-cta>Zacznij od zera</a>
           <a class="tlink" href="#kamil">Obejrzyj shorty</a>
         </div>
@@ -554,6 +573,7 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
   <!-- ============================================================= 2 · TY -->
   <section class="layer" id="ty" data-layer data-ground="glass" data-sc-act="flow" aria-labelledby="ty-h">
     <div class="layer__inner ty">
+      <img class="ty__you" src="assets/ty-you.webp" width="683" height="1024" alt="" aria-hidden="true" decoding="async" fetchpriority="low" data-depth="-0.12">
       <div class="ty__head" data-sc-copy>
         <p class="label" data-depth="0.22">Ty, w&nbsp;piątek wieczorem</p>
         <h2 class="d d--tall" id="ty-h" data-depth="0.12">Znasz to?</h2>
@@ -565,8 +585,9 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
         <p class="note" data-sc-copy>Jesteś jej darmowym terapeutą.</p>
         <p class="note" data-sc-copy>Tłumaczysz się. Ze wszystkiego.</p>
       </div>
-      <div class="ty__last" data-sc-copy>
-        <p class="d d--mid" data-depth="0.25">I&nbsp;za każdym razem obiecujesz sobie: <em>następnym razem.</em></p>
+      <div class="ty__last">
+        <div class="glow" data-fade aria-hidden="true"></div>
+        <p class="d d--mid" data-sc-copy data-depth="0.25">I&nbsp;za każdym razem obiecujesz sobie: <em>następnym razem.</em></p>
       </div>
     </div>
   </section>
@@ -595,10 +616,10 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
     </div>
     <div class="layer__inner walk" data-walk>
       <div class="walk__scrim" aria-hidden="true"></div>
-      <div class="walk__beat walk__beat--a" data-sc-copy><h2 class="d d--tall" data-depth="0.18">Widzisz ją przy barze.</h2></div>
-      <div class="walk__beat walk__beat--b" data-sc-copy><p class="d d--tall" data-depth="0.18">Masz dwie sekundy, zanim głowa wymyśli wymówkę.</p></div>
-      <div class="walk__beat walk__beat--c" data-sc-copy><div class="glow" aria-hidden="true"></div><p class="d d--wide" data-depth="0.32">Idź.</p></div>
-      <div class="walk__beat walk__beat--d" data-sc-copy><p class="d d--tall" data-depth="0.18">Nie układaj przemowy. Wystarczy jedno słowo.</p></div>
+      <div class="walk__beat walk__beat--a"><div class="glow" data-fade aria-hidden="true"></div><h2 class="d d--tall" data-sc-copy data-depth="0.18">Widzisz ją przy barze.</h2></div>
+      <div class="walk__beat walk__beat--b"><div class="glow" data-fade aria-hidden="true"></div><p class="d d--tall" data-sc-copy data-depth="0.18">Masz dwie sekundy, zanim głowa wymyśli wymówkę.</p></div>
+      <div class="walk__beat walk__beat--c"><div class="glow" data-fade aria-hidden="true"></div><p class="d d--wide" data-sc-copy data-depth="0.32">Idź.</p></div>
+      <div class="walk__beat walk__beat--d"><div class="glow" data-fade aria-hidden="true"></div><p class="d d--tall" data-sc-copy data-depth="0.18">Nie układaj przemowy. Wystarczy jedno słowo.</p></div>
       <div class="walk__end" data-depth="0.1">
         <div class="glow walk__glow" data-fade aria-hidden="true"></div>
         <p class="d d--wide" data-sc-copy>Cześć.</p>
@@ -701,32 +722,32 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
       <div class="route" data-route>
         <div class="route__line" aria-hidden="true"><i class="route__fill" data-route-fill></i></div>
         <article class="stage" data-reveal aria-labelledby="st1">
-          <div class="stage__top"><h3 class="stage__name" id="st1"><b>1</b> Fundament</h3><p class="stage__why">Przestań oddawać komuś pilot do swoich emocji.</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/1.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st1"><b>1</b> Fundament</h3><p class="stage__why">Przestań oddawać komuś pilot do swoich emocji.</p></div>
           <div class="guide"><div><h3>Kim naprawdę jest bad boy</h3><p>„Nie jest zły, jest po prostu wolny.” Niezależność, stabilność emocjonalna i&nbsp;różnica między pewnością a&nbsp;udawaniem.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/ieopA" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
           <div class="guide"><div><h3>Jak stracić kobietę w&nbsp;50 ruchach</h3><p>50 najczęstszych błędów, od tłumaczenia się po bycie jej darmowym terapeutą.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/nWctT" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
         </article>
         <article class="stage" data-reveal aria-labelledby="st2">
-          <div class="stage__top"><h3 class="stage__name" id="st2"><b>2</b> Podejście</h3><p class="stage__why">Od patrzenia do pierwszego słowa.</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/2.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st2"><b>2</b> Podejście</h3><p class="stage__why">Od patrzenia do pierwszego słowa.</p></div>
           <div class="guide"><div><h3>Jak podejść do kobiety</h3><p>Protokół 30 kroków, zasada dwóch sekund, szacunek i&nbsp;jasne granice. Nie o&nbsp;„podrywaniu”, tylko o&nbsp;zaufaniu do samego siebie.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Start tutaj</span></div><a class="btn btn--hot" href="https://payhip.com/b/p6Wj3" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
         </article>
         <article class="stage" data-reveal aria-labelledby="st3">
-          <div class="stage__top"><h3 class="stage__name" id="st3"><b>3</b> Rozmowa</h3><p class="stage__why">Co mówić, kiedy już stoisz obok niej.</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/3.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st3"><b>3</b> Rozmowa</h3><p class="stage__why">Co mówić, kiedy już stoisz obok niej.</p></div>
           <div class="guide"><div><h3>Jak flirtować + 143 przykłady</h3><p>Style flirtu i&nbsp;143 przykłady do użycia od razu.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/1Y5t6" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
           <div class="guide"><div><h3>Tekst, żeby wiedziały, że spotykasz się z&nbsp;innymi</h3><p>Krótka wiadomość, która mówi wprost, że nie jesteś na wyłączność.</p></div><div class="meta"><span class="chip">PDF</span></div><a class="btn btn--hot" href="https://payhip.com/b/mP5Xa" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
         </article>
         <article class="stage" data-reveal aria-labelledby="st4">
-          <div class="stage__top"><h3 class="stage__name" id="st4"><b>4</b> Gra</h3><p class="stage__why">„Game to nie jest oszustwo.”</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/4.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st4"><b>4</b> Gra</h3><p class="stage__why">„Game to nie jest oszustwo.”</p></div>
           <div class="guide"><div><h3>Czym jest gra i&nbsp;jak w&nbsp;nią grać</h3><p>Przestań zgadywać, zacznij prowadzić. Mapa dynamiki między facetem a&nbsp;kobietą.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/jWKuh" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
           <div class="guide"><div><h3>Tablica wyników i&nbsp;rama</h3><p>Status, czas i&nbsp;logistyka oraz słowa, które obniżają Twoją pozycję. W&nbsp;pakiecie 5 nowych poradników.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">+5 poradników</span></div><a class="btn btn--hot" href="https://payhip.com/b/RAeg5" target="_blank" rel="noopener">Kup · 98&nbsp;zł</a></div>
         </article>
         <article class="stage" data-reveal aria-labelledby="st5">
-          <div class="stage__top"><h3 class="stage__name" id="st5"><b>5</b> Relacja</h3><p class="stage__why">Wyjdź z&nbsp;roli kumpla i&nbsp;pasażera.</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/5.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st5"><b>5</b> Relacja</h3><p class="stage__why">Wyjdź z&nbsp;roli kumpla i&nbsp;pasażera.</p></div>
           <div class="guide"><div><h3>Jak wyjść z&nbsp;friendzone</h3><p>Test diagnozy, 30-dniowy plan i&nbsp;22 techniki.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/9w8Tp" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
           <div class="guide"><div><h3>Jak odzyskać kontrolę w&nbsp;związku</h3><p>30 pytań i&nbsp;30-dniowy plan, żeby z&nbsp;pasażera znów stać się liderem.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/WOpZJ" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
           <div class="guide"><div><h3>Jak kobiety manipulują</h3><p>143 sytuacje z&nbsp;życia i&nbsp;gotowe odpowiedzi, żeby nie wpaść w&nbsp;rolę terapeuty ani planu B.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip">Audio</span></div><a class="btn btn--hot" href="https://payhip.com/b/u4iwh" target="_blank" rel="noopener">Kup · 53&nbsp;zł</a></div>
         </article>
         <article class="stage" data-reveal aria-labelledby="st6">
-          <div class="stage__top"><h3 class="stage__name" id="st6"><b>6</b> Sypialnia</h3><p class="stage__why">Tylko dla dorosłych.</p></div>
+          <div class="stage__top"><img class="stage__tile" src="assets/route/6.webp" width="240" height="240" alt="" loading="lazy" decoding="async"><h3 class="stage__name" id="st6"><b>6</b> Sypialnia</h3><p class="stage__why">Tylko dla dorosłych.</p></div>
           <div class="guide"><div><h3>Co robić w&nbsp;łóżku</h3><p>Obecność, technika, sześć faz i&nbsp;opieka po wszystkim.</p></div><div class="meta"><span class="chip">PDF</span><span class="chip chip--18">18+</span></div><a class="btn btn--hot" href="https://payhip.com/b/SO8sJ" target="_blank" rel="noopener">Kup · 98&nbsp;zł</a></div>
         </article>
         <article class="bundle" data-reveal aria-labelledby="bundle-h">
@@ -745,7 +766,9 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
   <section class="layer" id="jeden" data-layer data-ground="solid" data-sc-act="flow" aria-labelledby="jeden-h">
     <div class="layer__inner jeden">
       <h2 class="d d--tall" id="jeden-h" data-sc-copy><span class="pl" data-depth="0.28">90 dni.<br>Ty i&nbsp;ja.</span></h2>
-      <div class="jeden__body" data-sc-copy>
+      <div class="jeden__body">
+        <div class="glow" data-fade aria-hidden="true"></div>
+        <div class="jeden__copy" data-sc-copy>
         <p>Bezpośrednia praca 1 na 1. Twardy reset Twojego życia, relacji i&nbsp;pewności siebie. Żadnych miękkich porad.</p>
         <ul class="incl" data-depth="0.14">
           <li>90 dni pracy ze mną, 1 na 1</li>
@@ -755,6 +778,7 @@ html:not(.deck-on) .walk__beat--a .d { font-size: clamp(2.2rem, 6vw, 6rem); }
         <p class="price"><small>od</small>3&#8239;000&nbsp;zł</p>
         <a class="btn btn--hot" href="https://payhip.com/b/4xGYB" target="_blank" rel="noopener">Pracuj ze mną 1:1</a>
         <p class="small">Wolisz najpierw pogadać? <a class="tlink" href="https://payhip.com/b/lewny" target="_blank" rel="noopener">Konsultacja video, 40 minut, od 350&nbsp;zł</a></p>
+        </div>
       </div>
     </div>
   </section>

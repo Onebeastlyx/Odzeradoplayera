@@ -194,6 +194,7 @@
     ? window.NightWorld.create(canvas, /lite/.test(Q) ? { scale: 0.32 } : /cscale=/.test(Q) ? { scale: parseFloat(Q.split('cscale=')[1]) } : {})
     : null;
   if (!world) html.classList.add('no-webgl');
+  if (world && HQ) window.__world = world;   // for the lab scripts (?snap, ?hq, ?capture)
   var perf = { n: 0, ema: 0 };
 
   var BASE = { rain: 0.55, fog: 0.42, clear: 0, focus: 0.34, warm: 0.38, drain: 0.2, dolly: 0, tx: 0.17, ty: -0.03, targetOn: 0, speed: 1, exposure: 1, dim: 0, street: -0.12, lights: 0, dropX: 0.76, dropY: 0.96, dropR: phone() ? 0.05 : 0.082, dropOn: 0 };
@@ -233,19 +234,45 @@
     };
   }
   var P = 0;   // progress through the walk, 0..1
-  // per section: the night's state, the flat veil (darkness) and the side veil
-  // (a darker left edge, or a darker lower half on a phone, for the copy)
+  // The photo behind the glass: one night in five frames (world.js plates).
+  // cold rainy street (Noc, Ty, Prawda) -> inside the bar, walking up to her
+  // (the walk) -> the bar after "Cześć." (Kamil, under the veil) -> a table
+  // after hours (1:1) -> the same street two hours later, warm (the close).
+  // Each entry: plate name, its share within the section, the focus point in
+  // plate uv (y down) and the zoom. Phones get the portrait of the cold street.
+  var PLATE_URL = 'assets/plates/';
+  function cold() { return phone() ? 'street-cold-portrait' : 'street-cold'; }
+  function pv(name, w, cx, cy, zoom) { return { name: name, w: w, cx: cx, cy: cy, zoom: zoom }; }
+  // the walk: a slow push toward her at the far end of the bar, then a cut (a
+  // dissolve under the rain and fog) to two metres behind her, holding on her
+  function walkPlates() {
+    var d = smooth(0.48, 0.62, P), z = smooth(0.10, 0.56, P);
+    return [
+      pv('bar-far', 1 - d, lerp(0.55, 0.62, z), lerp(0.50, 0.36, z), 1 + 0.75 * z),
+      pv('bar-near', d, 0.58, 0.50, lerp(1.0, 1.18, smooth(0.60, 0.90, P)))
+    ];
+  }
+  // per section: the night's state, the flat veil (darkness), the side veil
+  // (a darker left edge, or a darker lower half on a phone, for the copy) and
+  // the plates behind it
   var SEC = {
-    noc:       { w: function (s) { return mix(WS.noc[0], WS.noc[1], clamp((s.p - 0.5) * 2, 0, 1)); }, flat: 0, side: function () { return phone() ? 0.5 : 0.58; } },
-    ty:        { w: function (s) { return mix(WS.ty[0], WS.ty[1], s.p); }, flat: 0.34, side: 0.42 },
-    prawda:    { w: function (s) { return mix(WS.prawda[0], WS.prawda[1], smooth(0.15, 0.85, s.p)); }, flat: 0.1, side: function () { return phone() ? 0.7 : 0.94; } },
-    podejscie: { w: function () { return walkState(P); }, flat: 0, side: function () { return phone() ? 0.42 : lerp(0.42, 0.16, smooth(0.84, 0.95, P)); } },
-    kamil:     { w: after(0.84, 0.62), flat: 0.78, side: 0.3 },
-    opinie:    { w: after(0.62, 0.5), flat: 0.84, side: 0.2 },
-    droga:     { w: after(0.5, 0.25), flat: 0.86, side: 0.18 },
-    jeden:     { w: after(0.25, 0.06), flat: 0.86, side: 0.24 },
-    player:    { w: function (s) { return mix(WS.player[0], WS.player[1], s.p); }, flat: 0, side: 0.62 }
+    noc:       { w: function (s) { return mix(WS.noc[0], WS.noc[1], clamp((s.p - 0.5) * 2, 0, 1)); }, flat: 0, side: function () { return phone() ? 0.5 : 0.58; },
+                 plates: function (s) { return [pv(cold(), 1, 0.5, 0.5, lerp(1.0, 1.05, clamp((s.p - 0.5) * 2, 0, 1)))]; } },
+    ty:        { w: function (s) { return mix(WS.ty[0], WS.ty[1], s.p); }, flat: 0.34, side: 0.42,
+                 plates: function (s) { return [pv(cold(), 1, 0.5, 0.5, lerp(1.05, 1.10, s.p))]; } },
+    prawda:    { w: function (s) { return mix(WS.prawda[0], WS.prawda[1], smooth(0.15, 0.85, s.p)); }, flat: 0.1, side: function () { return phone() ? 0.7 : 0.94; },
+                 plates: function () { return [pv(cold(), 1, 0.5, 0.5, 1.10)]; } },
+    podejscie: { w: function () { return walkState(P); }, flat: 0, side: function () { return phone() ? 0.42 : lerp(0.42, 0.16, smooth(0.84, 0.95, P)); },
+                 plates: walkPlates },
+    kamil:     { w: after(0.84, 0.62), flat: 0.78, side: 0.3, plates: function () { return [pv('bar-near', 1, 0.58, 0.5, 1)]; } },
+    opinie:    { w: after(0.62, 0.5), flat: 0.84, side: 0.2, plates: function () { return [pv('bar-near', 1, 0.58, 0.5, 1)]; } },
+    droga:     { w: after(0.5, 0.25), flat: 0.86, side: 0.18, plates: function () { return [pv('table', 1, 0.62, 0.55, 1)]; } },
+    // the table shows through here, so the flat veil is lighter and the side veil carries the copy
+    jeden:     { w: after(0.25, 0.06), flat: 0.45, side: 0.6, plates: function (s) { return [pv('table', 1, 0.62, 0.55, lerp(1.0, 1.05, s.p))]; } },
+    player:    { w: function (s) { return mix(WS.player[0], WS.player[1], s.p); }, flat: 0, side: 0.62,
+                 plates: function (s) { return [pv('street-warm', 1, phone() ? 0.7 : 0.5, 0.5, lerp(1.06, 1.0, s.p))]; } }
   };
+  var slotNames = [null, null];   // the plate each world.js slot holds
 
   /* --------------------------------------------------------------- pointer */
   var mx = 0, my = 0, tmx = 0, tmy = 0;
@@ -477,6 +504,39 @@
     acc.parX = mx * 0.012;
     acc.parY = -my * 0.008 - hl * 0.025;
     if (world) {
+      // ---- the plates: every section on screen weighs its photos by coverage;
+      // the top two go to the slots. A slot keeps its plate until that plate's
+      // weight is about 0 and another needs the slot, so nothing ever jumps.
+      // The next section's plates start loading one section early.
+      var pacc = {}, list, en, ww, e;
+      for (i = 0; i < secs.length; i++) {
+        var ps = secs[i];
+        if (ps.cov <= 0) continue;
+        for (var j = i; j <= i + 1 && j < secs.length; j++) {
+          if (!secs[j].def.plates) continue;
+          list = secs[j].def.plates(secs[j]);
+          for (e = 0; e < list.length; e++) {
+            en = list[e];
+            world.plate(en.name, PLATE_URL + en.name + '.webp');
+            ww = j === i ? en.w * ps.cov : 0;
+            if (ww <= 0) continue;
+            var pa = pacc[en.name] || (pacc[en.name] = { w: 0, cx: 0, cy: 0, zoom: 0 });
+            pa.w += ww; pa.cx += en.cx * ww; pa.cy += en.cy * ww; pa.zoom += en.zoom * ww;
+          }
+        }
+      }
+      var order = Object.keys(pacc).sort(function (a, b) { return pacc[b].w - pacc[a].w; });
+      for (i = 0; i < 2; i++) {
+        var held = slotNames[i];
+        if (held && pacc[held] && pacc[held].w > 0.002) continue;
+        for (e = 0; e < order.length && e < 2; e++) if (order[e] !== slotNames[1 - i]) { slotNames[i] = order[e]; break; }
+      }
+      var pA = slotNames[0] && pacc[slotNames[0]], pB = slotNames[1] && pacc[slotNames[1]];
+      var wA = pA ? pA.w : 0, wB = pB ? pB.w : 0;
+      world.use(slotNames[0], slotNames[1]);
+      acc.plateMix = wA + wB > 0 ? wB / (wA + wB) : 0;
+      if (wA > 0) { acc.viewAx = pA.cx / wA; acc.viewAy = pA.cy / wA; acc.viewAz = pA.zoom / wA; }
+      if (wB > 0) { acc.viewBx = pB.cx / wB; acc.viewBy = pB.cy / wB; acc.viewBz = pB.zoom / wB; }
       if (jumped || SNAP) world.jump(acc); else world.set(acc);
       frameN++;
       // under the shop the night is mostly veiled: half the frames are plenty
